@@ -1,0 +1,104 @@
+{
+	"users": [
+		{
+			"email": "kb1196@yahoo.com",
+			"screenName": "Kevin Bu",
+			"password": "uniquepassword1",
+			"permission": "admin",
+			"coins": 2,
+			"added": [
+				{
+					"song": "Mud on the Tires",
+					"artist": "Brad Paisley",
+					"genre": "Country",
+					"length": "3:27",
+					"URL": "https://open.spotify.com/album/7jdM09zOoPpNn59UzAeryS"
+				},
+				{
+					"song": "Alone Together",
+					"artist": "Fall Out Boy",
+					"genre": "Rock",
+					"length": "3:33",
+					"URL": "https://open.spotify.com/track/75SixhsPWyRRmtqHeffiXr"
+				}
+			],
+			"saved": [
+				{
+					"song": "Freaky Friday (feat. Chris Brown)",
+					"artist": "Lil Dicky",
+					"genre": "Hip-Hop/Rap",
+					"length": "3:36",
+					"URL": "https://open.spotify.com/album/1XbNDGybI1iPfeQNJEeUdn"
+				},
+				{
+					"song": "Call Me Maybe",
+					"artist": "Carly Rae Jepsen",
+					"genre": "Pop",
+					"length": "3:13",
+					"URL": "https://open.spotify.com/album/3eHEUyFhVdkoXEJzXC0EKT"
+				}
+			],
+			"upvoted": [
+				{
+					"song": "Freaky Friday (feat. Chris Brown)",
+					"artist": "Lil Dicky",
+					"genre": "Hip-Hop/Rap",
+					"length": "3:36",
+					"URL": "https://open.spotify.com/album/1XbNDGybI1iPfeQNJEeUdn"
+				}
+			],
+			"downvoted": [
+				{
+					"song": "Location",
+					"artist": "Khalid",
+					"genre": "R&B",
+					"length": "3:39",
+					"URL": "https://open.spotify.com/album/35Z0yQ32AbTSDh530LeNKB"
+				}
+			]
+		},
+		{
+			"email": "sherry.feng@duke.com",
+			"screenName": "Sherry Feng",
+			"password": "uniquepassword2",
+			"permission": "user",
+			"coins": 1,
+			"added": [
+				{
+					"song": "Alone Together",
+					"artist": "Fall Out Boy",
+					"genre": "Rock",
+					"length": "3:33",
+					"URL": "https://open.spotify.com/track/75SixhsPWyRRmtqHeffiXr"
+				}
+			],
+			"saved": [
+				{
+					"song": "Call Me Maybe",
+					"artist": "Carly Rae Jepsen",
+					"genre": "Pop",
+					"length": "3:13",
+					"URL": "https://open.spotify.com/album/3eHEUyFhVdkoXEJzXC0EKT"
+				}
+			],
+			"upvoted": [
+				{
+					"song": "Freaky Friday (feat. Chris Brown)",
+					"artist": "Lil Dicky",
+					"genre": "Hip-Hop/Rap",
+					"length": "3:36",
+					"URL": "https://open.spotify.com/album/1XbNDGybI1iPfeQNJEeUdn"
+				}
+			],
+			"downvoted": [
+				{
+					"song": "Location",
+					"artist": "Khalid",
+					"genre": "R&B",
+					"length": "3:39",
+					"URL": "https://open.spotify.com/album/35Z0yQ32AbTSDh530LeNKB"
+				}
+			]
+		}
+	]	
+}
