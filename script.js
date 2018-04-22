@@ -1,4 +1,4 @@
-/*//firebase stuff 
+//firebase stuff 
 var config = {
     apiKey: "AIzaSyBdLoyJdNa1hug8fmJVq08YQjfOjdsoyC0",
     authDomain: "cs290-trello-f0978.firebaseapp.com",
@@ -9,19 +9,6 @@ var config = {
   };
   firebase.initializeApp(config);
 
-d3.select('input').firebase(
-    'https://cs290-trello-f0978.firebaseio.com', 
-    {
-        createFunc : function(newData) {
-           
-            return this.append('text').text(newData.val());
-        },
-        updateFunc : function(changedData) {
-            // data was changed, let's change the text
-            this.text(changedData.val());
-        }
-    }
-);*/
 var data = [
         {
             "artist": "Lupe Fiasco",
