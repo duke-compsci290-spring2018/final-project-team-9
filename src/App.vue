@@ -29,12 +29,15 @@ var app = new Vue({
 	methods: {
 		guest: function() {
 			//proceed as guest
+			console.log("guest test");
 		}
 		authenticate: function(email, password) {
 			//authenticate user if info match in credentials database
+			console.log("authenticate test");
 		},
 		createAccount: function(email, password) {
 			//add info to credentials database
+			console.log("createAccount test");
 		},
 		viewProfile: function() {
 			//maybe just do this in HTML

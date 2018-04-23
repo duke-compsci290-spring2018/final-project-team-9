@@ -11,5 +11,30 @@
   </head>
 
   <body>
-  	<a href="plan.html">Project Plan</a>
+  	<header id="header">
+  		<p>Splootify</p>
+  	</header>
+
+  	<div>
+  		<a href="plan.html">Project Plan</a>
+  	</div>
+
+  	<div id="authentication">
+  		<button type="button" class="btn" id="guest" v-on:click="guest">Proceed as guest</button><br>
+  		<br>
+
+  		<input class="email" placeholder="Your email" v-model="email">
+  		<input class="password" placeholder="Your password" v-model="password">
+  		<button type="button" class="btn" id="createAccount" v-on:click="createAccount(email, password)">Create account</button><br>
+  		<br>
+
+  		<input class="email" placeholder="Your email" v-model="email">
+  		<input class="password" placeholder="Your password" v-model="password">
+  		<button type="button" class="btn" id="login" v-on:click="authenticate(email, password)">Login</button><br>
+  		<br>
+  	</div>
+
+  	<footer id="footer">
+  		<p>Created by: Kevin Bu and Sherry Feng</p>
+  	</footer>
   </body>
