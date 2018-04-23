@@ -30,7 +30,7 @@ var app = new Vue({
 		guest: function() {
 			//proceed as guest
 			console.log("guest test");
-		}
+		},
 		authenticate: function(email, password) {
 			//authenticate user if info match in credentials database
 			console.log("authenticate test");
