@@ -4,7 +4,15 @@ var config = {
 	databaseURL: "https://cs290-trello-f0978.firebaseio.com",
 	storageBucket: "cs290-trello-f0978.appspot.com"
 };
-var database = firebase.initializeApp(config).database();
+var songDB = firebase.initializeApp(config).database();
+
+var config2 = {
+	apiKey: "AIzaSyBdLoyJdNa1hug8fmJVq08YQjfOjdsoyC0",
+	authDomain: "cs290-trello-f0978.firebaseapp.com",
+	databaseURL: "https://cs290-trello-f0978.firebaseio.com",
+	storageBucket: "cs290-trello-f0978.appspot.com"
+};
+var userDB = firebase.initializeApp(config2).database();
 
 var app = new Vue({
 	el: '#app',
