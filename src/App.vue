@@ -1,10 +1,22 @@
+var config = {
+	apiKey: "AIzaSyBdLoyJdNa1hug8fmJVq08YQjfOjdsoyC0",
+	authDomain: "cs290-trello-f0978.firebaseapp.com",
+	databaseURL: "https://cs290-trello-f0978.firebaseio.com",
+	storageBucket: "cs290-trello-f0978.appspot.com"
+};
+var database = firebase.initializeApp(config).database();
+
 var app = new Vue({
 	el: '#app',
 	firebase: {
 		//lists: database.ref('lists/')
 	},
 	data: {
-		authenticationStatus: ""
+		authenticationStatus: "",
+		email: "",
+		password: "",
+		song: "",
+		artist: ""
 	},
 	methods: {
 		guest: function() {
