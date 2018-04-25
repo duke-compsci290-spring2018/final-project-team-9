@@ -85,12 +85,15 @@ var app = new Vue({
 		viewMusic: function() {
 			//views input in checkboxes and displays respective lists
 		},
-		addSong: function(song, artist) {
+		addSong: function() {
 			//check info with song database and if true, give user a coin, else display error msg
 			//make sure that song uploaded is unique, or else throw error msg
+			var thisTrack = this.song.replace(/\s/, '%20');
+			console.log(thisTrack);
+			var thisArtist = this.artist.replace(/\s/, '%20');
 
 			$.ajax({
-				url: 'https://api.spotify.com/v1/search/q=artist:' + artist + '%20name:' + track + '&type=track',
+				url: 'https://api.spotify.com/v1/search/q=artist:' + thisArtist + '%20name:' + thisTrack + '&type=track',
 				success: function (response) {
 	            	console.log(response);
 	            	var key = database.ref('songs/').push().key;
