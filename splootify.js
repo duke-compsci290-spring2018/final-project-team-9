@@ -63,7 +63,7 @@ var app = new Vue({
 			//make sure that song uploaded is unique, or else throw error msg
 
 			$.ajax({
-				url: 'https://api.spotify.com/v1/search/q=artist:' + artist + '%20name:' + track + '&type=track';
+				url: 'https://api.spotify.com/v1/search/q=artist:' + artist + '%20name:' + track + '&type=track',
 				success: function (response) {
 	            	console.log(response);
 	            	var key = database.ref('songs/').push().key;
