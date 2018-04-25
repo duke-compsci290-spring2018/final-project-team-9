@@ -13,6 +13,8 @@ var app = new Vue({
 	},
 	data: {
 		authenticationStatus: "",
+		createEmail: "",
+		createPassword: "",
 		email: "",
 		password: "",
 		song: "",
@@ -26,10 +28,14 @@ var app = new Vue({
 		authenticate: function(email, password) {
 			//authenticate user if info match in credentials database
 			console.log("authenticate test");
+			console.log(email);
+			console.log(password);
 		},
 		createAccount: function(email, password) {
 			//add info to credentials database
 			console.log("createAccount test");
+			console.log(email);
+			console.log(password);
 		},
 		viewProfile: function() {
 			//maybe just do this in HTML
