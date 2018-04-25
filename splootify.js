@@ -41,8 +41,8 @@ var app = new Vue({
 			var exists = database.ref('users/').child(email);
 			if (exists === false) {
 				database.ref('users/').push({
-					email: email;
-					password: password;
+					email: email,
+					password: password
 				});
 			}
 		},
