@@ -52,11 +52,18 @@ var app = new Vue({
 		addSong: function(song, artist) {
 			//check info with song database and if true, give user a coin, else display error msg
 			//make sure that song uploaded is unique, or else throw error msg
+			$.ajax({
+				url: 'https://api.spotify.com/v1/search/q=artist:' + artist + '%20name:' + track + '&type=track';
+				success: function (response) {
+	            	console.log(response);
+	        	}
+	        });
 		},
-		generateSong: function() {
+		generateSong: function(artist, track) {
 			//remove 1 coin from user
 			//display song
 			//make sure that songs are not repeatedly generated
+
 		},
 		saveSong: function() {
 			//add generated song to saved list
