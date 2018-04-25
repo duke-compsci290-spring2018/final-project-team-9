@@ -13,13 +13,18 @@ var app = new Vue({
 		users: database.ref('users/')
 	},
 	data: {
-		authenticationStatus: "",
+		added: [],
+		artist: "",
 		createEmail: "",
 		createPassword: "",
+		coins: 0,
+		downvoted: [],
 		email: "",
 		password: "",
+		permission: "",
+		saved: "",
 		song: "",
-		artist: ""
+		upvoted: ""
 	},
 	methods: {
 		guest: function() {
@@ -38,13 +43,35 @@ var app = new Vue({
 			console.log(email);
 			console.log(password);
 			//var key = database.ref('users/').push().key;
-			var exists = database.ref('users/').child(email);
-			if (exists === false) {
-				database.ref('users/').push({
-					email: email,
-					password: password
+			//var exists = database.ref('users/' + email);
+			//console.log(exists);
+			//if (exists === false) {
+			//console.log(database.ref('users/').child(email).exists());
+			//console.log(2);
+			//var temp = email.replace(new RegExp(".","g"), "<>");
+			//var temp = email.replace(/./g, "<>");
+			var temp = email.split('.').join("<>");
+			console.log(temp);
+			var ref = database.ref('users/' + temp);
+			ref.once("value")
+				.then(function(snapshot) {
+					if(!(snapshot.exists())) {
+						console.log(1);
+						database.ref('users/' + temp).set({
+							added: ["null"],
+							coins: 10,
+							downvoted: ["null"],
+							password: password,
+							permission: "user",
+							saved: ["null"],
+							upvoted: ["null"]
+						});
+					}
 				});
-			}
+			this.coins = 10;
+			this.email = email;
+			this.password = password;
+			this.permission = "user";
 		},
 		viewProfile: function() {
 			//maybe just do this in HTML
