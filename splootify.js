@@ -9,7 +9,8 @@ var database = firebase.initializeApp(config).database();
 var app = new Vue({
 	el: '#app',
 	firebase: {
-		//lists: database.ref('lists/')
+		songs: database.ref('songs/'),
+		users: database.ref('users/')
 	},
 	data: {
 		authenticationStatus: "",
@@ -36,6 +37,14 @@ var app = new Vue({
 			console.log("createAccount test");
 			console.log(email);
 			console.log(password);
+			//var key = database.ref('users/').push().key;
+			var exists = database.ref('users/').child(email);
+			if (exists === false) {
+				database.ref('users/').push({
+					email: email,
+					password: password
+				});
+			}
 		},
 		viewProfile: function() {
 			//maybe just do this in HTML
@@ -52,12 +61,21 @@ var app = new Vue({
 		addSong: function(song, artist) {
 			//check info with song database and if true, give user a coin, else display error msg
 			//make sure that song uploaded is unique, or else throw error msg
+<<<<<<< HEAD
 			$.ajax({
 				url: 'https://api.spotify.com/v1/search/q=artist:' + artist + '%20name:' + track + '&type=track';
 				success: function (response) {
 	            	console.log(response);
 	        	}
 	        });
+=======
+			var key = database.ref('songs/').push().key;
+			database.ref('songs/' + key).set({
+				song: song,
+				artist: artist,
+				key: key
+			});
+>>>>>>> b5ec8f54123c584500ceccbf0b4d104642d93cb1
 		},
 		generateSong: function(artist, track) {
 			//remove 1 coin from user
