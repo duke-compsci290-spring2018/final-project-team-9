@@ -67,6 +67,18 @@ export default {
       console.log("authenticate test");
       console.log(email);
       console.log(password);
+
+      var temp = email.split('.').join("<>");
+      db.ref('users/' + temp + "/password").once("value").then(function(snapshot) {
+        var realPassword = snapshot.val();
+        if(password === realPassword) {
+          console.log("Authenticated");
+        }
+        else {
+          console.log("Not authenticated");
+        }
+        return true;
+      });
     },
     createAccount: function(email, password) {
       //add info to credentials database
@@ -81,6 +93,8 @@ export default {
       //console.log(2);
       //var temp = email.replace(new RegExp(".","g"), "<>");
       //var temp = email.replace(/./g, "<>");
+
+      //need a check to make sure account does not already exist
       var temp = email.split('.').join("<>");
       console.log(temp);
       var ref = db.ref('users/' + temp);
