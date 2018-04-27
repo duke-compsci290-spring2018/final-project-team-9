@@ -1,22 +1,33 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
+    <div id="app">
+      <header id="header">
+        <h1>Splootify</h1>
+      </header>
+      <div>
+        <a href="plan.html">Project Plan</a>
+      </div>
+
+      <div id="authentication">
+        <a href="guest.html"><button>Proceed as guest</button></a><br>
+        <!--<button type="button" class="btn" id="guest" v-on:click="guest">Proceed as guest</button><br>-->
+        <br>
+
+        <input class="email" placeholder="Enter your email" v-model="createEmail">
+        <input class="password" placeholder="Create a password" v-model="createPassword">
+        <button type="button" class="btn" id="createAccount" v-on:click="createAccount(createEmail, createPassword)">Create account</button><br>
+        <br>
+
+        <input class="email" placeholder="Enter your email" v-model="email">
+        <input class="password" placeholder="Enter your password" v-model="password">
+        <button type="button" class="btn" id="login" v-on:click="authenticate(email, password)">Login</button><br>
+        <br>
+      </div>
+      <footer id="footer">
+        <h3>Created by: Kevin Bu and Sherry Feng</h3>
+      </footer>
+    </div>
+
+    
 </template>
 
 <script>
