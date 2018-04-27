@@ -21,6 +21,12 @@
         <input class="password" placeholder="Enter your password" v-model="password">
         <button type="button" class="btn" id="login" v-on:click="authenticate(email, password)">Login</button><br>
         <br>
+ 
+        <!-- Temp testing for addSong function -->
+        <input class="song" placeholder="Enter song name" v-model="song">
+        <input class="artist" placeholder="Enter song artist" v-model="artist">
+        <button type="button" class="btn" id="add" v-on:click="addSong(song, artist)">Add song</button><br>
+        <br>
       </div>
       <footer id="footer">
         <h3>Created by: Kevin Bu and Sherry Feng</h3>
@@ -94,14 +100,11 @@ export default {
       //var temp = email.replace(new RegExp(".","g"), "<>");
       //var temp = email.replace(/./g, "<>");
 
-      //need a check to make sure account does not already exist
       var temp = email.split('.').join("<>");
-      console.log(temp);
       var ref = db.ref('users/' + temp);
       ref.once("value")
         .then(function(snapshot) {
           if(!(snapshot.exists())) {
-            console.log(1);
             db.ref('users/' + temp).set({
               added: ["null"],
               coins: 10,
@@ -113,12 +116,16 @@ export default {
             });
             return true;
           }
+          else {
+            alert("This email already exists in our system");
+            return true;
+          }
         });
       this.coins = 10;
       //this.email = email;
       //this.password = password;
       this.permission = "user";
-      this.createAccount = "";
+      this.createEmail = "";
       this.createPassword = ""; 
     },
     viewProfile: function() {
@@ -133,20 +140,21 @@ export default {
     viewMusic: function() {
       //views input in checkboxes and displays respective lists
     },
-    addSong: function() {
+    addSong: function(song, artist) {
       //check info with song database and if true, give user a coin, else display error msg
       //make sure that song uploaded is unique, or else throw error msg
       var thisTrack = this.song.replace(/\s/, '%20');
       console.log(thisTrack);
       var thisArtist = this.artist.replace(/\s/, '%20');
 
+      //check if song is in Spotify database and not already been added by this user
+      //if yes, update local database and increase coin count by 1
       $.ajax({
         url: 'https://api.spotify.com/v1/search/q=artist:' + thisArtist + '%20name:' + thisTrack + '&type=track',
         success: function (response) {
                 console.log(response);
                 var key = db.ref('songs/').push().key;
-          db.ref('songs/' + key).set({
-            song: song,
+          db.ref('songs/' + song).set({
             artist: artist,
             key: key
           });
