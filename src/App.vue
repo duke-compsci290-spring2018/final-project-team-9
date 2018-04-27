@@ -4,7 +4,7 @@
         <h1>Splootify</h1>
       </header>
       <div>
-        <a href="plan.html">Project Plan</a>
+        <h3><a href="plan.html">Project Plan</a></h3>
       </div>
 
       <div id="authentication">
@@ -27,7 +27,6 @@
       </footer>
     </div>
 
-    
 </template>
 
 <script>
