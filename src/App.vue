@@ -97,12 +97,15 @@ export default {
               saved: ["null"],
               upvoted: ["null"]
             });
+            return true;
           }
         });
       this.coins = 10;
-      this.email = email;
-      this.password = password;
+      //this.email = email;
+      //this.password = password;
       this.permission = "user";
+      this.createAccount = "";
+      this.createPassword = ""; 
     },
     viewProfile: function() {
       //maybe just do this in HTML
