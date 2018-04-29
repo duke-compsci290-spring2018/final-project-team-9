@@ -141,27 +141,47 @@ export default {
       //views input in checkboxes and displays respective lists
     },
     addSong: function(song, artist) {
-      var thisTrack = this.song.replace(/\s/, '%20');
-      console.log(thisTrack);
+      var thisSong = this.song.replace(/\s/, '%20');
       var thisArtist = this.artist.replace(/\s/, '%20');
 
-      // $.ajax({
-      //   url: 'https://api.spotify.com/v1/search/q=artist:' + thisArtist + '%20name:' + thisTrack + '&type=track',
-      //   success: function (response) {
-      //           console.log(response);
-      //           var key = db.ref('songs/').push().key;
-      //     db.ref('songs/' + song).set({
-      //       artist: artist,
-      //       key: key
-      //     });
-      //       }
-      //     });
+/*       
+      $.ajax({
+         url: 'https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20name:' + thisSong + '&type=track',
+         headers: {'Authorization': 'Bearer ' + accessToken},
+         success: function (response) {
+                 console.log(response);
+               }
+      });*/
+
 
       //getting access token for api call 
-     let parsed = queryString.parse(window.location.search);
+      let parsed = window.location.hash;
       console.log(parsed);
-      let accessToken = parsed.access_token; 
+      let accessToken = parsed.substring(20);
       console.log(accessToken);
+
+      console.log(artist + " " + song);
+
+      //url artist genre length 
+
+
+      var apiurl = 'https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20name:' + thisSong + '&type=track';
+      console.log(apiurl);
+
+      var songdata = []
+
+      fetch(apiurl, {
+        headers: {'Authorization': 'Bearer ' + accessToken}
+      }).then(function(data) {
+        if (data.status!=200){
+          alert("Data input not valid, try again!");
+        }
+        console.log(data);
+        console.log(data.results);
+        console.log(data.artists)
+        console.log(data.href)
+      });
+    
 
 
 
