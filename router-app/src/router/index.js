@@ -22,6 +22,12 @@ export default new Router({
     	path:'/user',
     	name:'User',
     	component: User
+    },
+    {
+      path:'/admin',
+      name:'Admin',
+      component: Admin
     }
+
   ]
 })
