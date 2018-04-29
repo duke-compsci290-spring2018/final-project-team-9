@@ -17,6 +17,9 @@
         <input class="artist" placeholder="Enter song artist" v-model="artist">
         <button type = "button" class="btn" id="add" v-on:click="verifySong(song,artist)">Verify song</button>
         <button type="button" class="btn" id="add" v-on:click="addSong(song, artist)">Add song</button><br>
+        <div id="verify" v-if="verified">
+          <p> Song verified! </p>
+        </div>
         <br>
 
         <!-- Temp testing for upvoteSong function -->
@@ -284,7 +287,6 @@ export default {
 
       console.log(thisSong + " " + thisArtist);
 
-
       let accessToken = window.location.hash.substring(20);
         console.log(accessToken);
       fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20track:' + thisSong + '&type=track', {
@@ -327,12 +329,14 @@ export default {
       this.tempLength = data.tracks.items[0].duration_ms / 1000; 
 
       console.log(this.tempPopularity + " " + this.tempLength);
-      return this.tempPopularity + " " + this.tempLength;
+
 
       if (this.tempURL=="") {
         alert("Invalid song, please try again");
         return;
       }
+      console.log("verified in settrack");
+      this.verified = true;
     },
     setGenre: function(data){
       //sets genre from spotify artist api
