@@ -8,10 +8,6 @@
       </div>
 
       <div id="authentication">
-        <a href="guest.html"><button>Proceed as guest</button></a><br>
-        <!--<button type="button" class="btn" id="guest" v-on:click="guest">Proceed as guest</button><br>-->
-        <br>
-
         <input class="email" placeholder="Enter your email" v-model="createEmail">
         <input class="password" placeholder="Create a password" v-model="createPassword">
         <button type="button" class="btn" id="createAccount" v-on:click="createAccount(createEmail, createPassword)">Create account</button><br>
@@ -76,15 +72,12 @@ export default {
       permission: "",
       saved: "",
       song: "",
-      upvoted: ""
+      upvoted: "",
+      songCount :4
     }
   },
   
   methods: {
-    guest: function() {
-      //proceed as guest
-      console.log("guest test");
-    },
     authenticate: function(email, password) {
       //authenticate user if info match in credentials database
       console.log("authenticate test");
@@ -183,6 +176,7 @@ export default {
             downvotesCount = snapshot.val().downvotes;
             uploadsCount = snapshot.val().uploads + 1;
             upvotesCount = snapshot.val().upvotes;
+            this.songCount -= 1;
           }
           db.ref('songs/' + temp).set({
             artist: artist,
@@ -201,7 +195,8 @@ export default {
             uploads: uploadsCount,
             upvotes: upvotesCount,
             URL: "null"
-          });     
+          });
+          this.songCount += 1;     
           return true;
         });
         this.coins += 1;  
