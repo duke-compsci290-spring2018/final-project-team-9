@@ -16,7 +16,7 @@ export default {
   methods: {
     signIn: function() {
   		console.log("signing...");
-  		window.location='http://localhost:8000/login'
+  		window.location='https://splootserver.herokuapp.com/login'
   		//server must be running for this to work
   		//change the location to the backend server heroku 
   	}
