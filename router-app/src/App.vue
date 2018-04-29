@@ -2,9 +2,7 @@
   <div id="app">
     <header id="header">
       <h1>Splootify</h1>
-      <img src="./assets/dog.jpg" alt="dog">
-      <a href="http://animalphotos.info/a/2007/12/22/terrier-being-wheeled-in-an-asian-city/"><img src="http://farm1.static.flickr.com/54/179593264_648a9524de.jpg">
-      </a>
+      <img src="http://farm1.static.flickr.com/54/179593264_648a9524de.jpg" alt="dog" width="150" height="200"><br>
       Picture Source: <a href="http://www.flickr.com/photos/28481088@N00">28481088@N00</a> 
       and <a href="http://animalphotos.info/a/">Animal Photos!</a>
     </header>
