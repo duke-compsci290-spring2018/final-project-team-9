@@ -2,9 +2,11 @@
   <div id="app">
     <div>
       <h2>Welcome to your song recommendation buddy</h2>
-      <h3>Without an account, you can only access our basic guest features</h3>
-      <h3>As a user, you will be able to <u>filter song generation criteria</u> as well as <u>save</u>, <u>downvote</u>, and <u>upvote</u> songs</h3>
-      <h3>To create an account, click the "user" tab in the upper right of this screen</h3>
+      <div id="description">
+        <h3>Without an account, you can only access our basic guest features</h3>
+        <h3>As a user, you will be able to <u>filter song generation criteria</u> as well as <u>save</u>, <u>downvote</u>, and <u>upvote</u> songs</h3>
+        <h3>To create an account, click the "user" tab in the upper right of this screen</h3>
+      </div>
     </div>
     
     <div>
@@ -104,7 +106,10 @@ export default {
 }
 
 h1, h2 {
-  font-weight: normal;
+  font-weight: 600;
+}
+h3{
+  font-weight: 200;
 }
 ul {
   list-style-type: none;
@@ -117,8 +122,12 @@ li {
 a {
   color: #42b983;
 }
+
 #categories {
-  color: blue;
-  font-size: 30px;
+  color: royalblue;
+  font-size: 25px;
+}
+#description{
+  line-height: 100%;
 }
 </style>
