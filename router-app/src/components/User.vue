@@ -10,7 +10,8 @@
         <input class="password" placeholder="Enter your password" v-model="password">
         <button type="button" class="btn" id="login" v-on:click="authenticate(email, password)">Login</button><br>
         <br> -->
-  
+        <div id="hello"></div>
+        <p>You have {{ coins }} coins remaining.</p>
         <!-- Temp testing for verifySong and addSong function -->
         <input class="song" placeholder="Enter song name" v-model="song">
         <input class="artist" placeholder="Enter song artist" v-model="artist">
@@ -38,8 +39,6 @@
         <!-- Temp testing for viewMusic function -->
         <button type="button" class="btn" id="viewMusic" v-on:click="viewMusic">Admin use: view entire music library</button><br>
         <br>
-
-        <p>Coins: {{ coins }}</p>
 
         <table style="width:100%" id="table">
           <tr>
@@ -296,12 +295,6 @@ export default {
       //console.log(this.tempURL);
       //console.log("tandooooooooor");
 
-      //fetch user info and email 
-      fetch('https://api.spotify.com/v1/me', {
-        headers: {'Authorization': 'Bearer ' + accessToken}
-      }).then(response=>response.json())
-      .then(data=>this.setEmail(data.email));
-
       //fetch artist info for genre 
       fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '&type=artist', {
         headers: {'Authorization': 'Bearer ' + accessToken}
@@ -313,6 +306,12 @@ export default {
       if (email=="") {
         alert("Please Authenticate");
       }
+      console.log(this.email);
+      var headline = document.getElementById("hello");
+      var greet = document.createElement("h2");
+      greet.appendChild(document.createTextNode("Hello, " + this.email + "!"));
+      headline.appendChild(greet);
+
     },
     setTrack: function(data){
       //sets the track data from spotify api
@@ -325,7 +324,7 @@ export default {
       console.log(this.tempURL);
       this.tempPopularity = data.tracks.items[0].popularity;
       var previewURL = data.tracks.items[0].preview_url;
-      this.tempLength = data.tracks.items[0].duration_ms / 100; 
+      this.tempLength = data.tracks.items[0].duration_ms / 1000; 
 
       console.log(this.tempPopularity + " " + this.tempLength);
       return this.tempPopularity + " " + this.tempLength;
@@ -521,21 +520,24 @@ export default {
           return true;
         });
     }
-  // },
+  },
+  mounted: function(){
+    let accessToken = window.location.hash.substring(20);
+    console.log(accessToken);
+    //fetch user info and email 
+    fetch('https://api.spotify.com/v1/me', {
+      headers: {'Authorization': 'Bearer ' + accessToken}
+    }).then(response=>response.json())
+    .then(data=>this.setEmail(data.email));
 
-  // mounted: () => { 
-  //   console.log(this.email);
-  //   console.log("yeetete");
-  //   var temp = this.email.split('.').join("<>");
-  //   var ref = db.ref('users/' + temp + "/coins");
-  //   this.coins = ref.once("value").then(function(snapshot) { 
-  //     var tempCoins = snapshot.val();
-  //     return tempCoins;
-  //   });
-  //   console.log(this.coins);
-  //   console.log("sherrrrrryy");
-  // },
-}
+    var temp = this.email.split('.').join("<>");
+    var ref = db.ref('users/' + temp + "/coins");
+    this.coins = ref.once("value").then(function(snapshot) { 
+    var tempCoins = snapshot.val();
+      return tempCoins;
+    });
+    console.log(this.coins);
+  }
 }
 </script>
 
@@ -546,11 +548,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 
 h1, h2 {
   font-weight: normal;
+}
+
+h2{
+  font-size: 20px;
 }
 
 ul {
