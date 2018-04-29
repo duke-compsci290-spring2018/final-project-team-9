@@ -27,6 +27,23 @@
         <input class="artist" placeholder="Enter song artist" v-model="artist">
         <button type="button" class="btn" id="add" v-on:click="addSong(song, artist)">Add song</button><br>
         <br>
+
+        <!-- Temp testing for saveSong function -->
+        <button type="button" class="btn" id="add" v-on:click="saveSong('Yellow', 'Coldplay')">Save song</button><br>
+        <br>
+
+        <!-- Temp testing for upvoteSong function -->
+        <button type="button" class="btn" id="add" v-on:click="upvoteSong('Yellow', 'Coldplay')">Upvote song</button><br>
+        <br>
+
+        <!-- Temp testing for downvoteSong function -->
+        <button type="button" class="btn" id="add" v-on:click="downvoteSong('Yellow', 'Coldplay')">Downvote song</button><br>
+        <br>
+
+        <!-- Categories for filtering: uploads, upvotes/downvotes, genre-->
+        <input type="radio" name="genre" value="Pop">Pop<br>
+        <input type="radio" name="genre" value="Hip-Hop/Rap">Hip-Hop/Rap<br>
+
       </div>
       <footer id="footer">
         <h3>Created by: Kevin Bu and Sherry Feng</h3>
@@ -54,7 +71,7 @@ export default {
       createPassword: "",
       coins: 0,
       downvoted: [],
-      email: "",
+      email: "kb@gmail.com",
       password: "",
       permission: "",
       saved: "",
@@ -91,14 +108,6 @@ export default {
       console.log("createAccount test");
       console.log(email);
       console.log(password);
-      //var key = database.ref('users/').push().key;
-      //var exists = database.ref('users/' + email);
-      //console.log(exists);
-      //if (exists === false) {
-      //console.log(database.ref('users/').child(email).exists());
-      //console.log(2);
-      //var temp = email.replace(new RegExp(".","g"), "<>");
-      //var temp = email.replace(/./g, "<>");
 
       var temp = email.split('.').join("<>");
       var ref = db.ref('users/' + temp);
@@ -114,16 +123,13 @@ export default {
               saved: ["null"],
               upvoted: ["null"]
             });
-            return true;
           }
           else {
             alert("This email already exists in our system");
-            return true;
           }
+          return true;
         });
       this.coins = 10;
-      //this.email = email;
-      //this.password = password;
       this.permission = "user";
       this.createEmail = "";
       this.createPassword = ""; 
@@ -141,44 +147,161 @@ export default {
       //views input in checkboxes and displays respective lists
     },
     addSong: function(song, artist) {
-      //check info with song database and if true, give user a coin, else display error msg
-      //make sure that song uploaded is unique, or else throw error msg
       var thisTrack = this.song.replace(/\s/, '%20');
       console.log(thisTrack);
       var thisArtist = this.artist.replace(/\s/, '%20');
 
-      //check if song is in Spotify database and not already been added by this user
-      //if yes, update local database and increase coin count by 1
-      $.ajax({
-        url: 'https://api.spotify.com/v1/search/q=artist:' + thisArtist + '%20name:' + thisTrack + '&type=track',
-        success: function (response) {
-                console.log(response);
-                var key = db.ref('songs/').push().key;
-          db.ref('songs/' + song).set({
-            artist: artist,
-            key: key
-          });
-            }
-          });
-      
+      // $.ajax({
+      //   url: 'https://api.spotify.com/v1/search/q=artist:' + thisArtist + '%20name:' + thisTrack + '&type=track',
+      //   success: function (response) {
+      //           console.log(response);
+      //           var key = db.ref('songs/').push().key;
+      //     db.ref('songs/' + song).set({
+      //       artist: artist,
+      //       key: key
+      //     });
+      //       }
+      //     });
 
+      //check to make sure user has not already uploaded this song
+      //if song match found in Spotify API, grab genre, length, and URL info
+
+      var curEmail = this.email.split('.').join("<>");
+      var downvotesCount = 0;
+      var uploadsCount = 1;
+      var upvotesCount = 0;
+      //temp to avoid disallowed characters in firebase (cant include ., #, $, [, ])
+      var temp = song.split('.').join("<>");
+      temp = temp.split('#').join(")(");
+      temp = temp.split('$').join("&&");
+      temp = temp.split('[').join("%%");
+      temp = temp.split(']').join("@@");
+      var ref = db.ref('songs/' + temp);
+      ref.once("value")
+        .then(function(snapshot) {
+          if(snapshot.exists()) {
+            downvotesCount = snapshot.val().downvotes;
+            uploadsCount = snapshot.val().uploads + 1;
+            upvotesCount = snapshot.val().upvotes;
+          }
+          db.ref('songs/' + temp).set({
+            artist: artist,
+            downvotes: downvotesCount,
+            genre: "null",
+            length: "null",
+            uploads: uploadsCount,
+            upvotes: upvotesCount,
+            URL: "null"
+          });
+          db.ref('users/' + curEmail + '/added/' + temp).set({
+            artist: artist,
+            downvotes: downvotesCount,
+            genre: "null",
+            length: "null",
+            uploads: uploadsCount,
+            upvotes: upvotesCount,
+            URL: "null"
+          });     
+          return true;
+        });
+        this.coins += 1;  
+        this.song = "";
+        this.artist = "";
     },
     generateSong: function(artist, track) {
-      //remove 1 coin from user
+      this.coins -= 1;
       //display song
       //make sure that songs are not repeatedly generated
 
     },
-    saveSong: function() {
-      //add generated song to saved list
+    saveSong: function(song, artist) {
+      var curEmail = this.email.split('.').join("<>");
+      var curSong = song.split('.').join("<>");
+      curSong = curSong.split('#').join(")(");
+      curSong = curSong.split('$').join("&&");
+      curSong = curSong.split('[').join("%%");
+      curSong = curSong.split(']').join("@@");
+
+      var ref = db.ref('songs/' + curSong);
+      ref.once("value")
+        .then(function(snapshot) {
+          var curURL = snapshot.val().URL;
+          var curDownvotes = snapshot.val().downvotes;
+          var curGenre = snapshot.val().genre;
+          var curLength = snapshot.val().length;
+          var curUploads = snapshot.val().uploads;
+          var curUpvotes = snapshot.val().upvotes;
+          db.ref('users/' + curEmail + '/saved/' + curSong).set({
+            URL: curURL,
+            artist: artist,
+            downvotes: curDownvotes,
+            genre: curGenre,
+            length: curLength,
+            uploads: curUploads,
+            upvotes: curUpvotes
+          });
+          return true;
+        });
     },
-    upvoteSong: function() {
-      //add generated song to upvoted list
+    upvoteSong: function(song, artist) {
+      var curEmail = this.email.split('.').join("<>");
+      var curSong = song.split('.').join("<>");
+      curSong = curSong.split('#').join(")(");
+      curSong = curSong.split('$').join("&&");
+      curSong = curSong.split('[').join("%%");
+      curSong = curSong.split(']').join("@@");
+
+      var ref = db.ref('songs/' + curSong);
+      ref.once("value")
+        .then(function(snapshot) {
+          var curURL = snapshot.val().URL;
+          var curDownvotes = snapshot.val().downvotes;
+          var curGenre = snapshot.val().genre;
+          var curLength = snapshot.val().length;
+          var curUploads = snapshot.val().uploads;
+          var curUpvotes = snapshot.val().upvotes;
+          db.ref('users/' + curEmail + '/upvoted/' + curSong).set({
+            URL: curURL,
+            artist: artist,
+            downvotes: curDownvotes,
+            genre: curGenre,
+            length: curLength,
+            uploads: curUploads,
+            upvotes: curUpvotes
+          });
+          return true;
+        });
     },
-    downvoteSong: function() {
-      //add generated song to downvoted list
+    downvoteSong: function(song, artist) {
+      var curEmail = this.email.split('.').join("<>");
+      var curSong = song.split('.').join("<>");
+      curSong = curSong.split('#').join(")(");
+      curSong = curSong.split('$').join("&&");
+      curSong = curSong.split('[').join("%%");
+      curSong = curSong.split(']').join("@@");
+
+      var ref = db.ref('songs/' + curSong);
+      ref.once("value")
+        .then(function(snapshot) {
+          var curURL = snapshot.val().URL;
+          var curDownvotes = snapshot.val().downvotes;
+          var curGenre = snapshot.val().genre;
+          var curLength = snapshot.val().length;
+          var curUploads = snapshot.val().uploads;
+          var curUpvotes = snapshot.val().upvotes;
+          db.ref('users/' + curEmail + '/downvoted/' + curSong).set({
+            URL: curURL,
+            artist: artist,
+            downvotes: curDownvotes,
+            genre: curGenre,
+            length: curLength,
+            uploads: curUploads,
+            upvotes: curUpvotes
+          });
+          return true;
+        });
     }
-  } //methods 
+  }
 }
 </script>
 
