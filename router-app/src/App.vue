@@ -2,13 +2,11 @@
   <div id="app">
     <header id="header">
       <h1>Splootify</h1>
-      <img src="http://farm1.static.flickr.com/54/179593264_648a9524de.jpg" alt="dog" width="150" height="200"><br>
-      Picture Source: <a href="http://www.flickr.com/photos/28481088@N00">28481088@N00</a> 
-      and <a href="http://animalphotos.info/a/">Animal Photos!</a>
+      <img src="http://farm1.static.flickr.com/54/179593264_648a9524de.jpg" alt="Splootify logo: A dog with its tongue out" width="150" height="200"><br>
     </header>
 
     <div>
-        <h3><a href="plan.html">Project Plan</a></h3>
+        
     </div>
 
     <router-link :to="{ name: 'Home' }">Home</router-link>
@@ -18,7 +16,7 @@
     <router-view/>
 
     <footer id="footer">
-      <h3>Created by: Kevin Bu and Sherry Feng</h3>
+      <p>Created by: Kevin Bu and Sherry Feng | <a href="plan.html">Project Plan</a> | Picture Source: <a href="http://www.flickr.com/photos/28481088@N00">28481088@N00</a> and <a href="http://animalphotos.info/a/">Animal Photos!</a></p>
     </footer>
   </div>
 </template>
@@ -55,5 +53,13 @@ li {
 
 a {
   color: #42b983;
+}
+
+footer{
+  margin: 10px;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ccffe6;
+  line-height: 60%;
 }
 </style>
