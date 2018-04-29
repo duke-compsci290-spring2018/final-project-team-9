@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div>
-      <h2>Welcome to your playlist management and song recommendation buddy</h2>
+      <h2>Welcome to your song recommendation buddy</h2>
       <h3>Without an account, you can only access our basic guest features</h3>
-      <h3>As a user, you can filter song generation criteria as well as save, downvote, and upvote songs</h3>
+      <h3>As a user, you will be able to <u>filter song generation criteria</u> as well as <u>save</u>, <u>downvote</u>, and <u>upvote</u> songs</h3>
       <h3>To create an account, click the "user" tab in the upper right of this screen</h3>
     </div>
     
@@ -11,10 +11,6 @@
       <button type="button" class="btn" id="generateSong" v-on:click="generateSong">Get a song recommendation</button><br>
       <br>
     </div>
-
-    <ol id="playlist">
-
-    </ol>
 
     <table style="width:100%" id="table">
       <tr>
@@ -73,6 +69,13 @@ export default {
           var thArtist = document.createElement("th");
           var thGenre = document.createElement("th");
           var thLength = document.createElement("th");
+
+          curSong = curSong.split('<>').join(".");
+          curSong = curSong.split(')(').join("#");
+          curSong = curSong.split('&&').join("$");
+          curSong = curSong.split('%%').join("[");
+          curSong = curSong.split('@@').join("]");
+
           thSong.appendChild(document.createTextNode(curSong));
           thArtist.appendChild(document.createTextNode(curArtist));
           thGenre.appendChild(document.createTextNode(curGenre));
@@ -91,6 +94,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
 h1, h2 {
   font-weight: normal;
 }

@@ -18,7 +18,7 @@
         <br>
 
         <!-- Temp testing for saveSong function -->
-        <button type="button" class="btn" id="add" v-on:click="saveSong('Yellow', 'Coldplay')">Save song</button><br>
+        <button type="button" class="btn" id="add" v-on:click="saveSong('Weekend', 'Louis the Child')">Save song</button><br>
         <br>
 
         <!-- Temp testing for upvoteSong function -->
@@ -32,6 +32,24 @@
         <!-- Categories for filtering: uploads, upvotes/downvotes, genre-->
         <input type="radio" name="genre" value="Pop">Pop<br>
         <input type="radio" name="genre" value="Hip-Hop/Rap">Hip-Hop/Rap<br>
+
+        <div>
+          <button type="button" class="btn" id="generateSong" v-on:click="generateSong">Get a song recommendation</button><br>
+          <br>
+        </div>
+
+        <!-- Temp testing for viewMusic function -->
+        <button type="button" class="btn" id="viewMusic" v-on:click="viewMusic">View music genres in a chart</button><br>
+        <br>
+
+        <table style="width:100%" id="table">
+          <tr>
+            <th id="categories">Song</th>
+            <th id="categories">Artist</th>
+            <th id="categories">Genre</th>
+            <th id="categories">Length</th>
+          </tr>
+        </table>
 
       </div>
     </div>
@@ -77,7 +95,8 @@ export default {
       var temp = email.split('.').join("<>");
       db.ref('users/' + temp + "/password").once("value").then(function(snapshot) {
         var realPassword = snapshot.val();
-        if(password === realPassword) {
+        if (password === realPassword) {
+          this.permission = "user";
           console.log("Authenticated");
         }
         else {
@@ -128,6 +147,7 @@ export default {
     },
     viewMusic: function() {
       //views input in checkboxes and displays respective lists
+      //currently use this method to display chart of saved genres
     },
     addSong: function(song, artist) {
       var thisSong = this.song.replace(/\s/, '%20');
@@ -221,10 +241,59 @@ export default {
         this.artist = "";
     },
     generateSong: function(artist, track) {
-      this.coins -= 1;
-      //display song
       //make sure that songs are not repeatedly generated
+      console.log(this.permission);
+      if (this.permission != "user") {
+        alert("You have not successfully logged in. Please do so first.")
+        return;
+      }
+      else {
+        this.coins -= 1;
+        var ref = db.ref('songs');
+        ref.once("value")
+          .then(function(snapshot) {
+            var songs = snapshot.val();
+            var numSongs = Object.keys(songs).length;
+            var random = Math.floor(Math.random() * numSongs);
+            var curSong = Object.keys(songs)[random];
+            var metadata = songs[curSong];
 
+            console.log(curSong);
+            console.log(metadata);
+
+            var curArtist = metadata["artist"];
+            var curDownvotes = metadata["downvotes"];
+            var curGenre = metadata["genre"];
+            var curLength = metadata["length"];
+            var curUploads = metadata["uploads"];
+            var curUpvotes = metadata["upvotes"];
+            var curURL = metadata["URL"];
+
+            var display = "Song: " + curSong + "; Artist: " + curArtist + "; Genre: " + curGenre + "; Length: " + curLength;
+            var trtable = document.getElementById("table");
+            var tr = document.createElement("tr");
+            var thSong = document.createElement("th");
+            var thArtist = document.createElement("th");
+            var thGenre = document.createElement("th");
+            var thLength = document.createElement("th");
+
+            curSong = curSong.split('<>').join(".");
+            curSong = curSong.split(')(').join("#");
+            curSong = curSong.split('&&').join("$");
+            curSong = curSong.split('%%').join("[");
+            curSong = curSong.split('@@').join("]");
+
+            thSong.appendChild(document.createTextNode(curSong));
+            thArtist.appendChild(document.createTextNode(curArtist));
+            thGenre.appendChild(document.createTextNode(curGenre));
+            thLength.appendChild(document.createTextNode(curLength));
+            tr.appendChild(thSong);
+            tr.appendChild(thArtist);
+            tr.appendChild(thGenre);
+            tr.appendChild(thLength);
+            trtable.appendChild(tr);
+        });
+      }
     },
     saveSong: function(song, artist) {
       var curEmail = this.email.split('.').join("<>");
@@ -254,6 +323,56 @@ export default {
           });
           return true;
         });
+var temp = this.email.split('.').join("<>");
+      var ref = db.ref('users/' + temp + '/saved');
+      ref.once("value")
+        .then(function(snapshot) {
+          var saved = snapshot.val();
+          var genresDict = {};
+          Object.keys(saved).forEach(function(key) {
+            console.log(key, saved[key]);
+            if (saved[key]["genre"] in genresDict) {
+              genresDict[saved[key]["genre"]] += 1;
+            }
+            else {
+              genresDict[saved[key]["genre"]] = 1;
+            }
+          });
+
+        console.log(genresDict);
+        var values = Object.values(genresDict);//song counts
+        var keys = Object.keys(genresDict);//genres
+        console.log(values);
+        console.log(keys);
+        var counts = {};
+        var width = 400;
+        var scaleFactor = 25;
+        var barHeight = 40;
+        var graph = d3.select("body")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", barHeight*values);
+          //values.length
+        var bar = graph.selectAll("g")
+          .data(values)
+          .enter()
+          .append("g")
+          .attr("transform", function(d, i) {
+            return "translate(0," + i*barHeight + ")";
+          });
+        bar.append("rect")
+          .attr("width", function(d) {
+            return d*scaleFactor;
+          })
+          .attr("height", barHeight-1);
+        bar.append("text")
+          .attr("x", function(d) { return (d*scaleFactor); })
+          .attr("y", barHeight/2)
+          .attr("dy", ".35em")
+          .text(function(d, i) { return keys[i] + ": " + d; })
+        // }
+        return true;
+      });
     },
     upvoteSong: function(song, artist) {
       var curEmail = this.email.split('.').join("<>");
