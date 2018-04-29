@@ -60,6 +60,5 @@ footer{
   margin-top: 20px;
   padding: 10px;
   background-color: #ccffe6;
-  line-height: 60%;
 }
 </style>

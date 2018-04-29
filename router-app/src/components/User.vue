@@ -168,13 +168,10 @@ export default {
     },
     addSong: function(song, artist) {
       if (this.verified === false) {
-        alert("Please verify this song first");
+        console.log("Please verify this song first");
         return;
       }
       else {
-        var thisSong = this.song.replace(/\s/, '%20');
-        var thisArtist = this.artist.replace(/\s/, '%20');
-
         this.artist = artist;
 
         //getting access token for api call 
@@ -280,7 +277,18 @@ export default {
           this.tempURL = "";
         }
     },
-    verifySong: function(thisSong, thisArtist) {
+    verifySong: function(songin, artistin) {
+      //replacing strings for API formatting 
+      var thisSong = songin.replace(/\s/, '%20');
+      thisSong = thisSong.replace(/\(/, '%28');
+      thisSong = thisSong.replace(/\)/, '%29');
+      thisSong = thisSong.replace(/'/, '%27');
+      var thisArtist = artistin.replace(/\s/, '%20');
+      thisArtist = thisArtist.replace(/'/, '%27');
+
+      console.log(thisSong + " " + thisArtist);
+
+
       let accessToken = window.location.hash.substring(20);
         console.log(accessToken);
       fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20track:' + thisSong + '&type=track', {
@@ -302,18 +310,20 @@ export default {
         headers: {'Authorization': 'Bearer ' + accessToken}
       }).then(response=>response.json())
       .then(data=>this.setGenre(data));
-      if (this.tempURL === "" || this.tempGenre === "" || this.tempLength === "") {
-        alert("Invalid song");
-      }
-      else {
-        this.verified = true;
-      } 
     },
     setEmail: function(email){
       this.email = email;
+      if (email=="") {
+        alert("Please Authenticate");
+      }
     },
     setTrack: function(data){
       //sets the track data from spotify api
+      if (data.tracks.items[0] == undefined){
+        alert("Invalid song, please try again");
+        return;
+      }
+      //obtaining URL, popularity, and legnth data 
       this.tempURL = data.tracks.items[0].external_urls.spotify;
       console.log(this.tempURL);
       this.tempPopularity = data.tracks.items[0].popularity;
@@ -322,10 +332,20 @@ export default {
 
       console.log(this.tempPopularity + " " + this.tempLength);
       return this.tempPopularity + " " + this.tempLength;
+
+      if (this.tempURL=="") {
+        alert("Invalid song, please try again");
+        return;
+      }
     },
     setGenre: function(data){
       //sets genre from spotify artist api
+      if (data.artists.items[0] == undefined){
+        alert("Invalid song, please try again");
+        return;
+      }
       this.tempGenre = data.artists.items[0].genres[0];
+
       console.log(this.tempGenre);
     },
     generateSong: function(artist, track) {
