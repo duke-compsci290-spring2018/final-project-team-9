@@ -50,6 +50,7 @@
 
 <script>
 import {db, songs, users} from './database'
+import queryString from 'query-string'
 
 export default {
   name: 'User',
@@ -155,6 +156,15 @@ export default {
       //     });
       //       }
       //     });
+
+      //getting access token for api call 
+     let parsed = queryString.parse(window.location.search);
+      console.log(parsed);
+      let accessToken = parsed.access_token; 
+      console.log(accessToken);
+
+
+
 
       //check to make sure user has not already uploaded this song
       //if song match found in Spotify API, grab genre, length, and URL info
