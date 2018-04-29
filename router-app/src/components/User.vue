@@ -18,10 +18,6 @@
         <button type="button" class="btn" id="add" v-on:click="addSong(song, artist)">Add song</button><br>
         <br>
 
-        <!-- Temp testing for saveSong function -->
-        <button type="button" class="btn" id="add" v-on:click="saveSong('Weekend', 'Louis the Child')">Save song</button><br>
-        <br>
-
         <!-- Temp testing for upvoteSong function -->
         <button type="button" class="btn" id="add" v-on:click="upvoteSong('Yellow', 'Coldplay')">Upvote song</button><br>
         <br>
@@ -42,6 +38,8 @@
         <!-- Temp testing for viewMusic function -->
         <button type="button" class="btn" id="viewMusic" v-on:click="viewMusic">Admin use: view entire music library</button><br>
         <br>
+
+        <p>Coins: {{ coins }}</p>
 
         <table style="width:100%" id="table">
           <tr>
@@ -77,12 +75,11 @@ export default {
       //createPassword: "",
       coins: 0,
       downvoted: [],
-      email: "kb@gmail.com",
+      email: "",
       //password: "",
       email: "",
       password: "",
-      permission: "",
-      saved: "",
+      permission: "user",
       song: "",
       upvoted: "",
       verified: false,
@@ -336,7 +333,20 @@ export default {
         return;
       }
       else {
-        this.coins -= 1;
+        //update database to decrement coin
+        // this.coins -= 1;
+
+        // console.log(this.email);
+        // console.log("yeetete");
+        // var temp = this.email.split('.').join("<>");
+        // var ref = db.ref('users/' + temp + "/coins");
+        // this.coins = ref.once("value").then(function(snapshot) { 
+        //   var tempCoins = snapshot.val();
+        //   return tempCoins;
+        // });
+        // console.log(this.coins);
+        // console.log("sherrrrrryy");
+
         var ref = db.ref('songs');
         ref.once("value")
           .then(function(snapshot) {
@@ -383,85 +393,6 @@ export default {
         });
       }
     },
-    saveSong: function(song, artist) {
-      var curEmail = this.email.split('.').join("<>");
-      var curSong = song.split('.').join("<>");
-      curSong = curSong.split('#').join(")(");
-      curSong = curSong.split('$').join("&&");
-      curSong = curSong.split('[').join("%%");
-      curSong = curSong.split(']').join("@@");
-
-      var ref = db.ref('songs/' + curSong);
-      ref.once("value")
-        .then(function(snapshot) {
-          var curURL = snapshot.val().URL;
-          var curDownvotes = snapshot.val().downvotes;
-          var curGenre = snapshot.val().genre;
-          var curLength = snapshot.val().length;
-          var curUploads = snapshot.val().uploads;
-          var curUpvotes = snapshot.val().upvotes;
-          db.ref('users/' + curEmail + '/saved/' + curSong).set({
-            URL: curURL,
-            artist: artist,
-            downvotes: curDownvotes,
-            genre: curGenre,
-            length: curLength,
-            uploads: curUploads,
-            upvotes: curUpvotes
-          });
-          return true;
-        });
-      var temp = this.email.split('.').join("<>");
-      var ref = db.ref('users/' + temp + '/saved');
-      ref.once("value")
-        .then(function(snapshot) {
-          var saved = snapshot.val();
-          var genresDict = {};
-          Object.keys(saved).forEach(function(key) {
-            console.log(key, saved[key]);
-            if (saved[key]["genre"] in genresDict) {
-              genresDict[saved[key]["genre"]] += 1;
-            }
-            else {
-              genresDict[saved[key]["genre"]] = 1;
-            }
-          });
-
-        console.log(genresDict);
-        var values = Object.values(genresDict);//song counts
-        var keys = Object.keys(genresDict);//genres
-        console.log(values);
-        console.log(keys);
-        var counts = {};
-        var width = 400;
-        var scaleFactor = 25;
-        var barHeight = 40;
-        var graph = d3.select("body")
-          .append("svg")
-          .attr("width", width)
-          .attr("height", barHeight*values);
-          //values.length
-        var bar = graph.selectAll("g")
-          .data(values)
-          .enter()
-          .append("g")
-          .attr("transform", function(d, i) {
-            return "translate(0," + i*barHeight + ")";
-          });
-        bar.append("rect")
-          .attr("width", function(d) {
-            return d*scaleFactor;
-          })
-          .attr("height", barHeight-1);
-        bar.append("text")
-          .attr("x", function(d) { return (d*scaleFactor); })
-          .attr("y", barHeight/2)
-          .attr("dy", ".35em")
-          .text(function(d, i) { return keys[i] + ": " + d; })
-        // }
-        return true;
-      });
-    },
     upvoteSong: function(song, artist) {
       var curEmail = this.email.split('.').join("<>");
       var curSong = song.split('.').join("<>");
@@ -488,6 +419,56 @@ export default {
             uploads: curUploads,
             upvotes: curUpvotes
           });
+          return true;
+        });
+        var temp = this.email.split('.').join("<>");
+        var ref = db.ref('users/' + temp + '/saved');
+        ref.once("value")
+          .then(function(snapshot) {
+            var saved = snapshot.val();
+            var genresDict = {};
+            Object.keys(saved).forEach(function(key) {
+              console.log(key, saved[key]);
+              if (saved[key]["genre"] in genresDict) {
+                genresDict[saved[key]["genre"]] += 1;
+              }
+              else {
+                genresDict[saved[key]["genre"]] = 1;
+              }
+            });
+
+          console.log(genresDict);
+          var values = Object.values(genresDict);//song counts
+          var keys = Object.keys(genresDict);//genres
+          console.log(values);
+          console.log(keys);
+          var counts = {};
+          var width = 400;
+          var scaleFactor = 25;
+          var barHeight = 40;
+          var graph = d3.select("body")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", barHeight*values);
+            //values.length
+          var bar = graph.selectAll("g")
+            .data(values)
+            .enter()
+            .append("g")
+            .attr("transform", function(d, i) {
+              return "translate(0," + i*barHeight + ")";
+            });
+          bar.append("rect")
+            .attr("width", function(d) {
+              return d*scaleFactor;
+            })
+            .attr("height", barHeight-1);
+          bar.append("text")
+            .attr("x", function(d) { return (d*scaleFactor); })
+            .attr("y", barHeight/2)
+            .attr("dy", ".35em")
+            .text(function(d, i) { return keys[i] + ": " + d; })
+          // }
           return true;
         });
     },
@@ -520,7 +501,21 @@ export default {
           return true;
         });
     }
-  }
+  // },
+
+  // mounted: () => { 
+  //   console.log(this.email);
+  //   console.log("yeetete");
+  //   var temp = this.email.split('.').join("<>");
+  //   var ref = db.ref('users/' + temp + "/coins");
+  //   this.coins = ref.once("value").then(function(snapshot) { 
+  //     var tempCoins = snapshot.val();
+  //     return tempCoins;
+  //   });
+  //   console.log(this.coins);
+  //   console.log("sherrrrrryy");
+  // },
+}
 }
 </script>
 
