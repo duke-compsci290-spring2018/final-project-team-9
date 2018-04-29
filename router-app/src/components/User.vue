@@ -10,10 +10,11 @@
         <input class="password" placeholder="Enter your password" v-model="password">
         <button type="button" class="btn" id="login" v-on:click="authenticate(email, password)">Login</button><br>
         <br> -->
- 
-        <!-- Temp testing for addSong function -->
+  
+        <!-- Temp testing for verifySong and addSong function -->
         <input class="song" placeholder="Enter song name" v-model="song">
         <input class="artist" placeholder="Enter song artist" v-model="artist">
+        <button type = "button" class="btn" id="add" v-on:click="verifySong(song,artist)">Verify song</button>
         <button type="button" class="btn" id="add" v-on:click="addSong(song, artist)">Add song</button><br>
         <br>
 
@@ -76,17 +77,15 @@ export default {
       //createPassword: "",
       coins: 0,
       downvoted: [],
-<<<<<<< HEAD
       email: "kb@gmail.com",
       //password: "",
-=======
       email: "",
       password: "",
->>>>>>> 68a66afef56e61c84a275f243438a42b38344dd1
       permission: "",
       saved: "",
       song: "",
       upvoted: "",
+      verified: false,
       //these are temp variables for track and artist data before they're pushed to fb
       tempURL: "",
       tempPopularity: 0,
@@ -168,22 +167,129 @@ export default {
       }
     },
     addSong: function(song, artist) {
-      var thisSong = this.song.replace(/\s/, '%20');
-      var thisArtist = this.artist.replace(/\s/, '%20');
+      if (this.verified === false) {
+        alert("Please verify this song first");
+        return;
+      }
+      else {
+        var thisSong = this.song.replace(/\s/, '%20');
+        var thisArtist = this.artist.replace(/\s/, '%20');
 
-      this.artist = artist;
+        this.artist = artist;
 
-      //getting access token for api call 
+        //getting access token for api call 
+        // let accessToken = window.location.hash.substring(20);
+        // console.log(accessToken);
+
+        //TODO: fix bugs with non normal input 
+        
+        //fetch track info
+        // this.tempURL = fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20track:' + thisSong + '&type=track', {
+        //   headers: {'Authorization': 'Bearer ' + accessToken}
+        // }).then(response=>response.json())
+        // .then(data=>this.setTrack(data));
+
+        console.log(this.tempURL);
+        
+        console.log("firstsssssssss");
+        // fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20track:' + thisSong + '&type=track', {
+        //   headers: {'Authorization': 'Bearer ' + accessToken}
+        // }).then(response=>response.json())
+        // .then(data=>this.setTrack(data));
+        // //.then(data=>this.tempURL=data);
+        // //console.log(this.tempURL);
+        // //console.log("tandooooooooor");
+
+        // //fetch user info and email 
+        // fetch('https://api.spotify.com/v1/me', {
+        //   headers: {'Authorization': 'Bearer ' + accessToken}
+        // }).then(response=>response.json())
+        // .then(data=>this.setEmail(data.email));
+
+        // //fetch artist info for genre 
+        // fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '&type=artist', {
+        //   headers: {'Authorization': 'Bearer ' + accessToken}
+        // }).then(response=>response.json())
+        // .then(data=>this.setGenre(data));
+
+        //check to make sure user has not already uploaded this song
+        //if song match found in Spotify API, grab genre, length, and URL info
+
+        var curEmail = this.email.split('.').join("<>");
+        var downvotesCount = 0;
+        var uploadsCount = 1;
+        var upvotesCount = 0;
+        //temp to avoid disallowed characters in firebase (cant include ., #, $, [, ])
+        var temp = song.split('.').join("<>");
+        temp = temp.split('#').join(")(");
+        temp = temp.split('$').join("&&");
+        temp = temp.split('[').join("%%");
+        temp = temp.split(']').join("@@");
+        var ref = db.ref('songs/' + temp);
+
+        //db.ref('songs/' + temp + '/temp')
+        console.log(this.tempGenre, this.tempLength, this.tempURL);
+        var genre = this.tempGenre;
+        var length = this.tempLength;
+        var URL = this.tempURL;
+        console.log("genrelengthURL: " + genre, length, URL);
+        ref.once("value")
+          .then(function(snapshot) {
+            if(snapshot.exists()) {
+              downvotesCount = snapshot.val().downvotes;
+              uploadsCount = snapshot.val().uploads + 1;
+              upvotesCount = snapshot.val().upvotes;
+            }
+            db.ref('songs/' + temp).set({
+              artist: artist,
+              downvotes: downvotesCount,
+              genre: genre,
+              length: length,
+              uploads: uploadsCount,
+              upvotes: upvotesCount,
+              URL: URL
+            });
+            db.ref('users/' + curEmail + '/added/' + temp).set({
+              artist: artist,
+              downvotes: downvotesCount,
+              genre: genre,
+              length: length,
+              uploads: uploadsCount,
+              upvotes: upvotesCount,
+              URL: URL
+            });
+            return true;
+          });
+          this.coins += 1;  
+          this.song = "";
+          this.artist = "";
+          // var postData = {
+          //   genre: this.tempGenre,
+          //   length: this.tempLength,
+          //   URL: this.tempURL
+          // }
+          // var newPostKey = db.ref().child('posts').push().key;
+          // var updates = {};
+          // updates['/songs/' + temp + '/' + newPostKey] = postData;
+          // updates['/users/' + curEmail + '/added/' + temp + '/' + newPostKey] =postData;
+          // return db.ref().update(updates);
+          console.log("finaaaaaaaaal");
+          this.verified = false;
+          this.tempGenre = "";
+          this.tempLength = "";
+          this.tempURL = "";
+        }
+    },
+    verifySong: function(thisSong, thisArtist) {
       let accessToken = window.location.hash.substring(20);
-      console.log(accessToken);
-
-      //TODO: fix bugs with non normal input 
-      
-      //fetch track info
+        console.log(accessToken);
       fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20track:' + thisSong + '&type=track', {
         headers: {'Authorization': 'Bearer ' + accessToken}
       }).then(response=>response.json())
       .then(data=>this.setTrack(data));
+      //.then(data=>this.tempURL=data);
+      //console.log(this.tempURL);
+      //console.log("tandooooooooor");
 
       //fetch user info and email 
       fetch('https://api.spotify.com/v1/me', {
@@ -196,55 +302,15 @@ export default {
         headers: {'Authorization': 'Bearer ' + accessToken}
       }).then(response=>response.json())
       .then(data=>this.setGenre(data));
-    
-
-      //check to make sure user has not already uploaded this song
-      //if song match found in Spotify API, grab genre, length, and URL info
-
-      var curEmail = this.email.split('.').join("<>");
-      var downvotesCount = 0;
-      var uploadsCount = 1;
-      var upvotesCount = 0;
-      //temp to avoid disallowed characters in firebase (cant include ., #, $, [, ])
-      var temp = song.split('.').join("<>");
-      temp = temp.split('#').join(")(");
-      temp = temp.split('$').join("&&");
-      temp = temp.split('[').join("%%");
-      temp = temp.split(']').join("@@");
-      var ref = db.ref('songs/' + temp);
-      ref.once("value")
-        .then(function(snapshot) {
-          if(snapshot.exists()) {
-            downvotesCount = snapshot.val().downvotes;
-            uploadsCount = snapshot.val().uploads + 1;
-            upvotesCount = snapshot.val().upvotes;
-          }
-          db.ref('songs/' + temp).set({
-            artist: artist,
-            downvotes: downvotesCount,
-            genre: "null",
-            length: "null",
-            uploads: uploadsCount,
-            upvotes: upvotesCount,
-            URL: "null"
-          });
-          db.ref('users/' + curEmail + '/added/' + temp).set({
-            artist: artist,
-            downvotes: downvotesCount,
-            genre: "null",
-            length: "null",
-            uploads: uploadsCount,
-            upvotes: upvotesCount,
-            URL: "null"
-          });
-          return true;
-        });
-        this.coins += 1;  
-        this.song = "";
-        this.artist = "";
+      if (this.tempURL === "" || this.tempGenre === "" || this.tempLength === "") {
+        alert("Invalid song");
+      }
+      else {
+        this.verified = true;
+      } 
     },
     setEmail: function(email){
-      this.email = email; 
+      this.email = email;
     },
     setTrack: function(data){
       //sets the track data from spotify api
@@ -255,6 +321,7 @@ export default {
       this.tempLength = data.tracks.items[0].duration_ms / 100; 
 
       console.log(this.tempPopularity + " " + this.tempLength);
+      return this.tempPopularity + " " + this.tempLength;
     },
     setGenre: function(data){
       //sets genre from spotify artist api
