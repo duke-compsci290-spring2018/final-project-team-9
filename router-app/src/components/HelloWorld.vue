@@ -4,6 +4,9 @@
     <h1>Splootify</h1>
     <h2>Welcome to your playlist management and song recommendation buddy!</h2>
     <h3>Without an account, you can only access our basic guest features below</h3> 
+    <div>
+        <h3><a href="plan.html">Project Plan</a></h3>
+    </div>
   </div>
 </template>
 
