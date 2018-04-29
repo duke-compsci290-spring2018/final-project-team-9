@@ -1,12 +1,5 @@
 <template>
     <div id="app">
-      <header id="header">
-        <h1>Splootify</h1>
-      </header>
-      <div>
-        <h3><a href="plan.html">Project Plan</a></h3>
-      </div>
-
       <div id="authentication">
         <input class="email" placeholder="Enter your email" v-model="createEmail">
         <input class="password" placeholder="Create a password" v-model="createPassword">
@@ -41,9 +34,6 @@
         <input type="radio" name="genre" value="Hip-Hop/Rap">Hip-Hop/Rap<br>
 
       </div>
-      <footer id="footer">
-        <h3>Created by: Kevin Bu and Sherry Feng</h3>
-      </footer>
     </div>
 
 </template>
@@ -73,8 +63,7 @@ export default {
       permission: "",
       saved: "",
       song: "",
-      upvoted: "",
-      songCount :4
+      upvoted: ""
     }
   },
   
@@ -206,7 +195,6 @@ export default {
             downvotesCount = snapshot.val().downvotes;
             uploadsCount = snapshot.val().uploads + 1;
             upvotesCount = snapshot.val().upvotes;
-            this.songCount -= 1;
           }
           db.ref('songs/' + temp).set({
             artist: artist,
@@ -226,7 +214,6 @@ export default {
             upvotes: upvotesCount,
             URL: "null"
           });
-          this.songCount += 1;     
           return true;
         });
         this.coins += 1;  
