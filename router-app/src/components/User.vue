@@ -1,15 +1,15 @@
 <template>
     <div id="app">
       <div id="authentication">
-        <input class="email" placeholder="Enter your email" v-model="createEmail">
+        <!-- <input class="email" placeholder="Enter your email" v-model="createEmail">
         <input class="password" placeholder="Create a password" v-model="createPassword">
         <button type="button" class="btn" id="createAccount" v-on:click="createAccount(createEmail, createPassword)">Create account</button><br>
-        <br>
+        <br> -->
 
-        <input class="email" placeholder="Enter your email" v-model="email">
+        <!-- <input class="email" placeholder="Enter your email" v-model="email">
         <input class="password" placeholder="Enter your password" v-model="password">
         <button type="button" class="btn" id="login" v-on:click="authenticate(email, password)">Login</button><br>
-        <br>
+        <br> -->
  
         <!-- Temp testing for addSong function -->
         <input class="song" placeholder="Enter song name" v-model="song">
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Temp testing for viewMusic function -->
-        <button type="button" class="btn" id="viewMusic" v-on:click="viewMusic">View music genres in a chart</button><br>
+        <button type="button" class="btn" id="viewMusic" v-on:click="viewMusic">Admin use: view entire music library</button><br>
         <br>
 
         <table style="width:100%" id="table">
@@ -72,12 +72,12 @@ export default {
     return {
       added: [],
       artist: "",
-      createEmail: "",
-      createPassword: "",
+      //createEmail: "",
+      //createPassword: "",
       coins: 0,
       downvoted: [],
       email: "kb@gmail.com",
-      password: "",
+      //password: "",
       permission: "",
       saved: "",
       song: "",
@@ -86,68 +86,76 @@ export default {
   },
   
   methods: {
-    authenticate: function(email, password) {
-      //authenticate user if info match in credentials database
-      console.log("authenticate test");
-      console.log(email);
-      console.log(password);
+    // authenticate: function(email, password) {
+    //   //authenticate user if info match in credentials database
+    //   console.log("authenticate test");
+    //   console.log(email);
+    //   console.log(password);
 
-      var temp = email.split('.').join("<>");
-      db.ref('users/' + temp + "/password").once("value").then(function(snapshot) {
-        var realPassword = snapshot.val();
-        if (password === realPassword) {
-          this.permission = "user";
-          console.log("Authenticated");
-        }
-        else {
-          console.log("Not authenticated");
-        }
-        return true;
-      });
-    },
-    createAccount: function(email, password) {
-      //add info to credentials database
-      console.log("createAccount test");
-      console.log(email);
-      console.log(password);
+    //   var temp = email.split('.').join("<>");
+    //   db.ref('users/' + temp + "/password").once("value").then(function(snapshot) {
+    //     var realPassword = snapshot.val();
+    //     if (password === realPassword) {
+    //       console.log("Authenticated");
+    //     }
+    //     else {
+    //       console.log("Not authenticated");
+    //     }
+    //     return true;
+    //   });
+    //   this.permission = "admin";
+    // },
+    // createAccount: function(email, password) {
+    //   //add info to credentials database
+    //   console.log("createAccount test");
+    //   console.log(email);
+    //   console.log(password);
 
-      var temp = email.split('.').join("<>");
-      var ref = db.ref('users/' + temp);
-      ref.once("value")
-        .then(function(snapshot) {
-          if(!(snapshot.exists())) {
-            db.ref('users/' + temp).set({
-              added: ["null"],
-              coins: 10,
-              downvoted: ["null"],
-              password: password,
-              permission: "user",
-              saved: ["null"],
-              upvoted: ["null"]
-            });
-          }
-          else {
-            alert("This email already exists in our system");
-          }
-          return true;
-        });
-      this.coins = 10;
-      this.permission = "user";
-      this.createEmail = "";
-      this.createPassword = ""; 
-    },
+    //   var temp = email.split('.').join("<>");
+    //   var ref = db.ref('users/' + temp);
+    //   ref.once("value")
+    //     .then(function(snapshot) {
+    //       if(!(snapshot.exists())) {
+    //         db.ref('users/' + temp).set({
+    //           added: ["null"],
+    //           coins: 10,
+    //           downvoted: ["null"],
+    //           password: password,
+    //           permission: "user",
+    //           saved: ["null"],
+    //           upvoted: ["null"]
+    //         });
+    //       }
+    //       else {
+    //         alert("This email already exists in our system");
+    //       }
+    //       return true;
+    //     });
+    //   this.coins = 10;
+    //   this.permission = "user";
+    //   this.createEmail = "";
+    //   this.createPassword = ""; 
+    // },
     viewProfile: function() {
       //maybe just do this in HTML
     },
-    changePassword: function(prevPassword, newPassword) {
-      //if prevPassword matches that in the credentials database, change prevPassword to newPassword
-    },
-    resetPassword: function() {
-      //this seems tedious and we can probably cut it out
-    },
     viewMusic: function() {
       //views input in checkboxes and displays respective lists
-      //currently use this method to display chart of saved genres
+      //currently use this method for addmin access to see entire database
+      console.log(this.permission);
+      console.log(this.permission === "admin");
+      if (this.permission === "admin") {
+        var ref = db.ref('songs');
+        ref.once("value")
+          .then(function(snapshot) {
+            var allSongs = snapshot.val();
+            console.log(allSongs);
+            return true;
+          });
+      }
+      else {
+        alert("not authorized");
+      }
     },
     addSong: function(song, artist) {
       var thisSong = this.song.replace(/\s/, '%20');
@@ -191,9 +199,6 @@ export default {
         console.log(data.href)
       });
     
-
-
-
 
       //check to make sure user has not already uploaded this song
       //if song match found in Spotify API, grab genre, length, and URL info
@@ -323,7 +328,7 @@ export default {
           });
           return true;
         });
-var temp = this.email.split('.').join("<>");
+      var temp = this.email.split('.').join("<>");
       var ref = db.ref('users/' + temp + '/saved');
       ref.once("value")
         .then(function(snapshot) {
