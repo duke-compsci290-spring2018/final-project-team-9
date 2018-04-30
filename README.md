@@ -1,5 +1,5 @@
 # final-project
-Name: Sherry Feng (sf197) and Kevin Bu 
+Name: Sherry Feng (sf197) and Kevin Bu (kb271)
 Started 4/20 ended 4/30 
 Total time: 50 hours 
 
@@ -25,17 +25,7 @@ All data is verified by the Spotify API. We perform a search of the track and ar
 
 Frameworks: 
 We chose to use Vue because that's ultimately what we're most familiar with: we didn't think it would be feasible to learn an entirely new framework in a matter of one month. We liked how easy it was to bind form data with Vue, as this was a huge component of our project. 
+We also used D3 for data visualization purposes. We represented a user's upvoted song genres in a horizontal bar chart to display to them what their preferences may be.
 
 
-# Usability Testing 
-Name: Michelle Shin
-Time of Interaction: 4/28 
-Feedback: The website looks a lot better with the Vue package, aesthetically. Some of the buttons are confusing, because they aren't accompanied with instructions so I'm not really sure what they do: for example, what am I upvoting and downvoting on the user page? Is it the songs I've added, or the songs that have been suggested to me? Also, I think that if users are supposed to log in before accessing their website, there shouldn't be a user button at the top, or else people can just navigate to the user page without logging in and use your app, which would be kind of bad for you guys. 
 
-Name: Matt Greenwald
-Time of Interaction: 4/29
-Feedback: This app looks so pretty! I like the dog at the top especially :) I think the purpose of the app is generally clear, but as a person I'm not sure how useful this is to me. Is there any way to add, for example, a URL to open Spotify, or a clip of the recording, or some other way I can actually listen to the music that gets recommended to me? Also, I noticed that some of the capitalization for songs and artists is not consistent. Like some songs are all lowercase, while others are properly camel-cased. It might look more professional if all of this was consistently marked. 
-
-Name: Aditi Pilani
-Time of Interaction: 4/29
-Feedback: It can be a little disorienting to see text that is a lot bigger than the buttons. For aesthetic purposes, I would balance these two out a bit more-- some of the buttons are really small and hard to read in comparison to the actual words on the page. There's also a long gray bar on the user page that doesn't look really good, but I understand if you can't hide that. The directions on the user page are a bit jumbled. The words are all really far apart horizontally but still spaced vertically, which makes it a little hard to read, especially on a bigger computer like mine. Also, I think the URL should open in a separate tab, or else I lose the songs that were recommended to me when I accidentally navigate out of the page. 
