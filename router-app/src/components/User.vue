@@ -533,7 +533,6 @@ export default {
 
 .isGreen{
   color: green;
-  size: 50px;
 }
 
 p{
