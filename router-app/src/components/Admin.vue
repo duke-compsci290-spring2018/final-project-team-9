@@ -3,10 +3,11 @@
 
 
 		<h2>Hello, Admin</h2>
-		<p>If you have administrator privileges, please enter your email along with your unique identifier to get authenticated.</p>
-	    <input class="email" placeholder="Enter your email" v-model="email">
-	    <input class="uniqueID" placeholder="Enter your unique identifier" v-model="uniqueID">
-	    <button type="button" class="btn" id="login" v-on:click="authenticate(email, uniqueID)">Login</button><br>
+		<p>The cumulative crowd-sourced song database is below.</p>
+		<p>To delete a song, enter the song and artist information below.</p>
+	    <input class="song" placeholder="Enter name of song" v-model="song">
+	    <input class="artist" placeholder="Enter name of artist" v-model="artist">
+	    <button type="button" class="btn" id="deleteSong" v-on:click="deleteSong(song, artist)">Delete song</button><br>
 	    <br>
     <div>
       <h2> All Inputted Song Data: <a href=https://cs290-trello-f0978.firebaseio.com/>https://cs290-trello-f0978.firebaseio.com/</a></h2>
@@ -36,7 +37,9 @@ export default {
   	return {
   		email: "",
   		uniqueID: "",
-  		permission: ""
+  		permission: "",
+  		song: "",
+  		artist: ""
   	}
   },
   methods: {
@@ -78,6 +81,35 @@ export default {
         return true;
       });
       this.permission = "admin";
+    },
+    deleteSong: function (song, artist) {
+      var temp = song.split('.').join("<>");
+      temp = temp.split('#').join(")(");
+      temp = temp.split('$').join("&&");
+      temp = temp.split('[').join("%%");
+      temp = temp.split(']').join("@@");
+
+      var tempArtist = artist.split('.').join("<>");
+      tempArtist = tempArtist.split('#').join(")(");
+      tempArtist = tempArtist.split('$').join("&&");
+      tempArtist = tempArtist.split('[').join("%%");
+      tempArtist = tempArtist.split(']').join("@@");
+
+      console.log(temp);
+      console.log(tempArtist);
+      var ref = db.ref('songs/' + temp);
+      ref.once("value")
+      .then(function(snapshot) {
+        if(snapshot.exists()) {
+          ref.remove();
+        }
+        else {
+          alert("Song does not exist");
+        }
+        return true;
+      });
+      this.song = "";
+      this.artist = "";
     }
   },
   mounted: function(){
