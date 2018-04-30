@@ -67,6 +67,7 @@
 <script>
 import {db, songs, usersRef} from './database'
 import queryString from 'query-string'
+import d3 from 'd3'
 
 export default {
   name: 'User',
