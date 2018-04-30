@@ -11,8 +11,9 @@
         <button type="button" class="btn" id="login" v-on:click="authenticate(email, password)">Login</button><br>
         <br> -->
         <div id="hello"></div>
-        <p>You have {{ coins }} coins remaining.</p>
+        <div id="coinremain"></div>
         <button v-on:click="userprint">Click here to see your profile!</button>
+        <br>
         <div id="userinfo">
           
         </div>
@@ -121,19 +122,6 @@ export default {
       //return curEmail;
       //console.log(user.child(curEmail));
       //return user.ref(child(curEmail).child("added"));
-    },
-    coins: function(){
-      //display coin data
-      db.ref('users/' + this.curEmail + '/coins/').once("value")
-        .then(function(snapshot) {
-          var cc = snapshot.key;
-          console.log(cc);
-
-          var coincount = snapshot.child("remaining").val();
-          console.log(coincount);
-
-          return coincount;
-        });
     }
   },
 
@@ -192,6 +180,7 @@ export default {
       console.log(this.users);
       console.log(this.profilesongs);
       console.log(this.curEmail);
+      //display added songs
       db.ref('users/' + this.curEmail + '/added/').once("value")
         .then(function(snapshot) {
           var allSongs = snapshot.val();
@@ -200,6 +189,24 @@ export default {
           var rootbox = document.getElementById("userinfo");
           var heading = document.createElement("h2");
           heading.appendChild(document.createTextNode("Songs you've added:"));
+          rootbox.appendChild(heading);
+
+          snapshot.forEach(function(childSnapshot) {
+            var toadd = document.createElement("p");
+            toadd.appendChild(document.createTextNode(childSnapshot.key +" by " + childSnapshot.child("artist").val()));
+            rootbox.appendChild(toadd);
+          })
+      });
+
+      //display upvoted songs
+      db.ref('users/' + this.curEmail + '/upvoted/').once("value")
+        .then(function(snapshot) {
+          var allSongs = snapshot.val();
+          console.log(allSongs);
+
+          var rootbox = document.getElementById("userinfo");
+          var heading = document.createElement("h2");
+          heading.appendChild(document.createTextNode("Songs you've upvoted:"));
           rootbox.appendChild(heading);
 
           snapshot.forEach(function(childSnapshot) {
@@ -635,6 +642,18 @@ export default {
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response=>response.json())
     .then(data=>this.setEmail(data.email));
+
+    //coins
+    db.ref('users/' + this.curEmail + '/coins/').once("value")
+        .then(function(snapshot) {
+          var coincount = snapshot.child("remaining").val();
+
+          var pp = document.createElement("p");
+          pp.appendChild(document.createTextNode("You have " + coincount + " coins remaining"));
+          document.getElementById("coinremain").appendChild(pp);
+
+          return coincount;
+        });
   }
 }
 </script>
@@ -690,6 +709,12 @@ a {
 #categories {
   color: royalblue;
   font-size: 25px;
+}
+
+#userinfo{
+  border-style: solid;
+  border-width: 2px;
+  border-color: lightgray;
 }
 </style>
 
