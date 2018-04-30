@@ -20,11 +20,11 @@ https://samypesse.gitbooks.io/heroku-node/deployment.html
 https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML
 https://github.com/jmperez/spotify-web-api-js
 
-what makes your application useful
-special instructions needed to set up, run, access, or use your application (like user passwords you have set up, command line utilities, or external programs that need to be run)
-references for your data that establishes its authenticity
-discuss both the pros and the cons of different framework possibilities you considered and why you made the decision you did (including choosing not to use any framework)
+Data: 
+All data is verified by the Spotify API. We perform a search of the track and artist, and if no results show up the user is prompted to enter a valid song. You cannot add an invalid song to our database. 
 
+Frameworks: 
+We chose to use Vue because that's ultimately what we're most familiar with: we didn't think it would be feasible to learn an entirely new framework in a matter of one month. We liked how easy it was to bind form data with Vue, as this was a huge component of our project. 
 
 
 # Usability Testing 
