@@ -7,6 +7,7 @@
         <br> -->
 
         <div id="hello"></div>
+
         <button v-on:click="userprint">View your profile</button>
 
         <div id="coinremain"></div>
@@ -14,6 +15,16 @@
         <div id="userinfo"></div>
 
         
+        <!-- <router-link to="/admin">Admin</router-link> -->
+        <p>ADMINISTRATORS ONLY</p>
+        <input class="email" placeholder="Enter your email" v-model="email">
+        <input class="uniqueID" placeholder="Enter your uniqueID" v-model="uniqueID">
+        <button type = "button" class="btn" id="admin" v-on:click="verifyAdmin(email, uniqueID)">Authenticate admin</button>
+        <div id="admin"></div>
+        <div v-if="isAdmin">
+          <router-link to="/admin">Admin</router-link>
+        </div>
+
         <div>
           <p id="inst">How to add a song to our crowdsourced database:</p>
           <p id="inst">First, enter the name of the song and artist</p>
@@ -79,7 +90,6 @@ export default {
       downvoted: [],
       email: "",
       //password: "",
-      email: "",
       password: "",
       permission: "user",
       song: "",
@@ -92,17 +102,51 @@ export default {
       tempLength: "",
       tempGenre: "",
       users: usersRef,
-
+      uniqueID: "",
       dbusers: db.ref('users'),
       profilesongs: db.ref('users/' + this.curEmail + '/added/'),
+<<<<<<< HEAD
+      isAdmin: false
+=======
 
+>>>>>>> bbeb0f0069948f35ac9fcdcc14db20e1bc24144b
 
     }
   },
   computed: {
     curEmail: function(){
       return this.email.split('.').join("<>");
+<<<<<<< HEAD
+      /*var superdata;
+      db.ref('users/' + curEmail + "/added/").once("value")
+          .then(function(snapshot) {
+            var superdata = snapshot.val();
+            console.log(superdata);
+            return superdata;
+          });
+      console.log(superdata);*/
 
+      //return curEmail;
+      //console.log(user.child(curEmail));
+      //return user.ref(child(curEmail).child("added"));
+    },
+    coins: function(){
+      //display coin data
+      db.ref('users/' + this.curEmail + '/coins/remaining').once("value")
+        .then(function(snapshot) {
+          var coincount = snapshot.val();
+
+          //console.log(this.curEmail);
+          console.log(snapshot)
+          var cc = snapshot.val();
+          //console.log(cc);
+
+
+          return coincount;
+        });
+=======
+
+>>>>>>> bbeb0f0069948f35ac9fcdcc14db20e1bc24144b
     }
   },
 
@@ -138,7 +182,48 @@ export default {
     //   this.createEmail = "";
     //   this.createPassword = ""; 
     // },
+    verifyAdmin: function(email, uniqueID){
+      if (email == "sherrycherry123@gmail.com" || email == "kevin.bu@duke.edu"){
+        console.log("email passed");
+        if (uniqueID == "9doggo5") {
+          console.log("id passed");
+          this.isAdmin = true;
+        }
+      }
+      console.log(this.isAdmin);
+/*
+      var temp = email.split('.').join("<>");
+      db.ref('users/' + temp + '/uniqueID').once("value")
+        .then(function(snapshot) {
+          var realUniqueID = snapshot.val();
+          if (uniqueID === realUniqueID) {//<><><>
+            //<router-link to="/admin">Admin</router-link>
+            var divAdmin = document.getElementById("admin");
+            var routerLink = document.createElement("router-link");
 
+            routerLink.appendChild(document.createTextNode("Adam"));
+
+            var thDownvote = document.createElement("button");
+            //thDownvote.data = "Downvote";
+            thDownvote.innerHTML = "Downvote";
+            thDownvote.onclick = function() {
+              db.ref('users/' + temp + '/downvoted/' + curSong).set({
+                artist: curArtist,
+                genre: curGenre,
+                length: curLength
+              });
+              thDownvote.style.backgroundColor = "red";
+            };
+
+            tr.appendChild(thDownvote);
+            trtable.appendChild(tr);
+          }
+          else {
+            console.log("Not authenticated");
+          }
+          return true;
+        });*/
+    },
     userprint: function(){
       console.log(this.users);
       console.log(this.profilesongs);
@@ -601,7 +686,26 @@ export default {
     }).then(response=>response.json())
     .then(data=>this.setEmail(data.email));
 
+<<<<<<< HEAD
+    //coins
+    db.ref('users/' + this.email.split('.').join("<>") + '/coins/').once("value")
+        .then(function(snapshot) {
+          console.log(snapshot)
+          var coincount = snapshot.val().child("remaining");
 
+          console.log(coincount.val());
+          
+
+          var pp = document.createElement("p");
+          pp.appendChild(document.createTextNode("You have " + coincount + " coins remaining"));
+          document.getElementById("coinremain").appendChild(pp);
+
+          return coincount;
+        });
+    
+=======
+
+>>>>>>> bbeb0f0069948f35ac9fcdcc14db20e1bc24144b
   }
 }
 </script>
