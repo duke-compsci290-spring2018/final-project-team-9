@@ -1,5 +1,7 @@
 <template>
 	<div id="Admin">
+
+
 		<h2>Hello, Admin</h2>
 		<p>If you have administrator privileges, please enter your email along with your unique identifier to get authenticated.</p>
 	    <input class="email" placeholder="Enter your email" v-model="email">
@@ -17,7 +19,7 @@ export default {
 
   firebase: {
   	songs: songs,
-  	users: users
+
   },
 
   data () {

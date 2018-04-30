@@ -7,9 +7,8 @@
         <br> -->
 
         <div id="hello"></div>
-        <p>u have {{coins}} coins remaining</p>
-        <button v-on:click="userprint">View your profile</button>
 
+        <button v-on:click="userprint">View your profile</button>
 
         <div id="coinremain"></div>
 
@@ -106,13 +105,18 @@ export default {
       uniqueID: "",
       dbusers: db.ref('users'),
       profilesongs: db.ref('users/' + this.curEmail + '/added/'),
+<<<<<<< HEAD
       isAdmin: false
+=======
+
+>>>>>>> bbeb0f0069948f35ac9fcdcc14db20e1bc24144b
 
     }
   },
   computed: {
     curEmail: function(){
       return this.email.split('.').join("<>");
+<<<<<<< HEAD
       /*var superdata;
       db.ref('users/' + curEmail + "/added/").once("value")
           .then(function(snapshot) {
@@ -140,6 +144,9 @@ export default {
 
           return coincount;
         });
+=======
+
+>>>>>>> bbeb0f0069948f35ac9fcdcc14db20e1bc24144b
     }
   },
 
@@ -388,7 +395,7 @@ export default {
             });
             return true;
           });
-          this.coins += 1;  
+
           this.song = "";
           this.artist = "";
           // var postData = {
@@ -406,6 +413,13 @@ export default {
           this.tempGenre = "";
           this.tempLength = "";
           this.tempURL = "";
+
+        db.ref('users/' + this.curEmail + '/coins/').once("value")
+        .then(function(snapshot) {
+          var coincount = snapshot.child("remaining").val()+2;
+            var newcc = "<h3>You have " + coincount + " coins remaining!";
+            document.getElementById("coinremain").innerHTML = newcc;
+          })
         }
     },
     verifySong: function(songin, artistin) {
@@ -515,6 +529,9 @@ export default {
             var updates = {};
             updates['/users/' + temp + '/coins'] = postData;
             db.ref().update(updates);
+
+            var newcc = "<h3>You have " + curCoins-1 + " coins remaining!";
+            document.getElementById("coinremain").innerHTML = newcc
             console.log("success");
             return;
           });
@@ -708,6 +725,7 @@ export default {
     }).then(response=>response.json())
     .then(data=>this.setEmail(data.email));
 
+<<<<<<< HEAD
     //coins
     db.ref('users/' + this.email.split('.').join("<>") + '/coins/').once("value")
         .then(function(snapshot) {
@@ -724,6 +742,9 @@ export default {
           return coincount;
         });
     
+=======
+
+>>>>>>> bbeb0f0069948f35ac9fcdcc14db20e1bc24144b
   }
 }
 </script>
