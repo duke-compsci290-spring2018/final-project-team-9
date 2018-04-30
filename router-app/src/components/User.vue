@@ -7,21 +7,25 @@
         <br> -->
 
         <div id="hello"></div>
-<<<<<<< HEAD
         <p>u have {{coins}} coins remaining</p>
         <button v-on:click="userprint">View your profile</button>
-=======
->>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
 
-        <button v-on:click="userprint">View your profile</button>
+
         <div id="coinremain"></div>
-<<<<<<< HEAD
 
-=======
->>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
         <div id="userinfo"></div>
 
         
+        <!-- <router-link to="/admin">Admin</router-link> -->
+        <p>ADMINISTRATORS ONLY</p>
+        <input class="email" placeholder="Enter your email" v-model="email">
+        <input class="uniqueID" placeholder="Enter your uniqueID" v-model="uniqueID">
+        <button type = "button" class="btn" id="admin" v-on:click="verifyAdmin(email, uniqueID)">Authenticate admin</button>
+        <div id="admin"></div>
+        <div v-if="isAdmin">
+          <router-link to="/admin">Admin</router-link>
+        </div>
+
         <div>
           <p id="inst">How to add a song to our crowdsourced database:</p>
           <p id="inst">First, enter the name of the song and artist</p>
@@ -87,7 +91,6 @@ export default {
       downvoted: [],
       email: "",
       //password: "",
-      email: "",
       password: "",
       permission: "user",
       song: "",
@@ -100,9 +103,10 @@ export default {
       tempLength: "",
       tempGenre: "",
       users: usersRef,
-
+      uniqueID: "",
       dbusers: db.ref('users'),
-      profilesongs: db.ref('users/' + this.curEmail + '/added/')
+      profilesongs: db.ref('users/' + this.curEmail + '/added/'),
+      isAdmin: false
 
     }
   },
@@ -121,24 +125,17 @@ export default {
       //return curEmail;
       //console.log(user.child(curEmail));
       //return user.ref(child(curEmail).child("added"));
-<<<<<<< HEAD
-=======
-
->>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
     },
     coins: function(){
       //display coin data
       db.ref('users/' + this.curEmail + '/coins/remaining').once("value")
         .then(function(snapshot) {
-<<<<<<< HEAD
           var coincount = snapshot.val();
 
           //console.log(this.curEmail);
           console.log(snapshot)
-=======
           var cc = snapshot.val();
           //console.log(cc);
->>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
 
 
           return coincount;
@@ -178,7 +175,48 @@ export default {
     //   this.createEmail = "";
     //   this.createPassword = ""; 
     // },
+    verifyAdmin: function(email, uniqueID){
+      if (email == "sherrycherry123@gmail.com" || email == "kevin.bu@duke.edu"){
+        console.log("email passed");
+        if (uniqueID == "9doggo5") {
+          console.log("id passed");
+          this.isAdmin = true;
+        }
+      }
+      console.log(this.isAdmin);
+/*
+      var temp = email.split('.').join("<>");
+      db.ref('users/' + temp + '/uniqueID').once("value")
+        .then(function(snapshot) {
+          var realUniqueID = snapshot.val();
+          if (uniqueID === realUniqueID) {//<><><>
+            //<router-link to="/admin">Admin</router-link>
+            var divAdmin = document.getElementById("admin");
+            var routerLink = document.createElement("router-link");
 
+            routerLink.appendChild(document.createTextNode("Adam"));
+
+            var thDownvote = document.createElement("button");
+            //thDownvote.data = "Downvote";
+            thDownvote.innerHTML = "Downvote";
+            thDownvote.onclick = function() {
+              db.ref('users/' + temp + '/downvoted/' + curSong).set({
+                artist: curArtist,
+                genre: curGenre,
+                length: curLength
+              });
+              thDownvote.style.backgroundColor = "red";
+            };
+
+            tr.appendChild(thDownvote);
+            trtable.appendChild(tr);
+          }
+          else {
+            console.log("Not authenticated");
+          }
+          return true;
+        });*/
+    },
     userprint: function(){
       console.log(this.users);
       console.log(this.profilesongs);
@@ -671,7 +709,6 @@ export default {
     .then(data=>this.setEmail(data.email));
 
     //coins
-<<<<<<< HEAD
     db.ref('users/' + this.email.split('.').join("<>") + '/coins/').once("value")
         .then(function(snapshot) {
           console.log(snapshot)
@@ -687,8 +724,6 @@ export default {
           return coincount;
         });
     
-=======
->>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
   }
 }
 </script>
