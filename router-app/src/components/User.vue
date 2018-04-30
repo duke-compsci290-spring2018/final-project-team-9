@@ -7,15 +7,11 @@
         <br> -->
 
         <div id="hello"></div>
-<<<<<<< HEAD
-        <p>You have {{ coins }} coins remaining.</p>
+        <p>u have {{coins}} coins remaining</p>
         <button v-on:click="userprint">View your profile</button>
-=======
 
         <div id="coinremain"></div>
 
-        <button v-on:click="userprint">Click here to view your profile</button>
->>>>>>> 4b23ae59b32d2b21f1a0944c7cf1a2418a4b8738
         <div id="userinfo"></div>
         
         <div>
@@ -31,13 +27,6 @@
         <button type="button" class="btn" id="add" v-on:click="addSong(song, artist)">Add song</button><br>
         <div id="added"></div>
         <br>
-
-        <!-- Temp testing for downvoteSong function -->
-        <!-- <button type="button" class="btn" id="add" v-on:click="downvoteSong('Yellow', 'Coldplay')">Downvote song</button><br> -->
-
-        <!-- Categories for filtering: uploads, upvotes/downvotes, genre-->
-        <input type="radio" name="genre" value="Pop">Pop<br>
-        <input type="radio" name="genre" value="Hip-Hop/Rap">Hip-Hop/Rap<br>
 
         <div>
           <button type="button" class="btn" id="generateSong" v-on:click="generateSong">Get a song recommendation</button><br>
@@ -124,22 +113,19 @@ export default {
       //return curEmail;
       //console.log(user.child(curEmail));
       //return user.ref(child(curEmail).child("added"));
-<<<<<<< HEAD
     },
     coins: function(){
       //display coin data
-      db.ref('users/' + this.curEmail + '/coins/').once("value")
+      db.ref('users/' + this.curEmail + '/coins/remaining').once("value")
         .then(function(snapshot) {
-          var cc = snapshot.key;
-          //console.log(cc);
+          var coincount = snapshot.val();
 
-          var coincount = snapshot.child("remaining").val();
-          //console.log(coincount);
+          //console.log(this.curEmail);
+          console.log(snapshot)
+
 
           return coincount;
         });
-=======
->>>>>>> 4b23ae59b32d2b21f1a0944c7cf1a2418a4b8738
     }
   },
 
@@ -428,6 +414,17 @@ export default {
       console.log(this.tempGenre);
     },
     generateSong: function(artist, track) {
+      // var sherry = "sherrycherry123@gmail.com";
+      // var temp = sherry.split('.').join("<>");
+      // db.ref('users/' + temp).set({
+      //    added: "null",
+      //    coins: { "remaining": 10 },
+      //    downvoted: "null",
+      //    permission: "admin",
+      //    uniqueID: "14cate5",
+      //    upvoted: "null"
+      // })
+
       //make sure that songs are not repeatedly generated
       console.log(this.permission);
       if (this.permission != "user") {
@@ -544,40 +541,40 @@ export default {
             }
           });
 
-        console.log(genresDict);
-        var values = Object.values(genresDict);//song counts
-        var keys = Object.keys(genresDict);//genres
-        console.log(values);
-        console.log(keys);
-        var counts = {};
-        var width = 400;
-        var scaleFactor = 25;
-        var barHeight = 40;
-        d3.select("svg").remove();
-        var graph = d3.select("#chart")
-          .append("svg")
-          .attr("width", width)
-          .attr("height", barHeight*values.length);
-          //values.length
-        var bar = graph.selectAll("g")
-          .data(values)
-          .enter()
-          .append("g")
-          .attr("transform", function(d, i) {
-            return "translate(0," + i*barHeight + ")";
-          });
-        bar.append("rect")
-          .attr("width", function(d) {
-            return d*scaleFactor;
-          })
-          .attr("height", barHeight-1);
-        bar.append("text")
-          .attr("x", function(d) { return (d*scaleFactor); })
-          .attr("y", barHeight/2)
-          .attr("dy", ".35em")
-          .text(function(d, i) { return keys[i] + ": " + d; })
-        // }
-        //return true;
+          console.log(genresDict);
+          var values = Object.values(genresDict);//song counts
+          var keys = Object.keys(genresDict);//genres
+          console.log(values);
+          console.log(keys);
+          var counts = {};
+          var width = 400;
+          var scaleFactor = 25;
+          var barHeight = 40;
+          d3.select("svg").remove();
+          var graph = d3.select("#chart")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", barHeight*values.length);
+            //values.length
+          var bar = graph.selectAll("g")
+            .data(values)
+            .enter()
+            .append("g")
+            .attr("transform", function(d, i) {
+              return "translate(0," + i*barHeight + ")";
+            });
+          bar.append("rect")
+            .attr("width", function(d) {
+              return d*scaleFactor;
+            })
+            .attr("height", barHeight-1);
+          bar.append("text")
+            .attr("x", function(d) { return (d*scaleFactor); })
+            .attr("y", barHeight/2)
+            .attr("dy", ".35em")
+            .text(function(d, i) { return keys[i] + ": " + d; })
+          // }
+          //return true;
       });
     },
     displayGenres: function() {
@@ -643,9 +640,13 @@ export default {
     .then(data=>this.setEmail(data.email));
 
     //coins
-    db.ref('users/' + this.curEmail + '/coins/').once("value")
+    db.ref('users/' + this.email.split('.').join("<>") + '/coins/').once("value")
         .then(function(snapshot) {
-          var coincount = snapshot.child("remaining").val();
+          console.log(snapshot)
+          var coincount = snapshot.val().child("remaining");
+
+          console.log(coincount.val());
+          
 
           var pp = document.createElement("p");
           pp.appendChild(document.createTextNode("You have " + coincount + " coins remaining"));
@@ -653,6 +654,7 @@ export default {
 
           return coincount;
         });
+    
   }
 }
 </script>
