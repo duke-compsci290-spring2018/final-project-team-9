@@ -1,0 +1,423 @@
+{
+  "songs" : {
+    "Apologize" : {
+      "URL" : "https://open.spotify.com/track/1NrJYpdAi7uosDRPmSYrsG",
+      "artist" : "One Republic",
+      "downvotes" : 0,
+      "genre" : "dance pop",
+      "length" : 208.106,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Back to Back" : {
+      "URL" : "https://open.spotify.com/track/5lFDtgWsjRJu8fPOAyJIAK",
+      "artist" : "Drake",
+      "downvotes" : 0,
+      "genre" : "canadian hip hop",
+      "length" : 170.637,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Blank Space" : {
+      "URL" : "https://open.spotify.com/track/1p80LdxRV74UKvL8gnD7ky",
+      "artist" : "Taylor Swift",
+      "downvotes" : 0,
+      "genre" : "dance pop",
+      "length" : 231.826,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Boulevard of Broken Dreams" : {
+      "URL" : "https://open.spotify.com/track/0MsrWnxQZxPAcov7c74sSo",
+      "artist" : "Green Day",
+      "downvotes" : 0,
+      "genre" : "alternative metal",
+      "length" : 493.4,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Breakeven" : {
+      "URL" : "https://open.spotify.com/track/38xWaVFKaxZlMFvzNff2aW",
+      "artist" : "The Script",
+      "downvotes" : 0,
+      "genre" : "celtic rock",
+      "length" : 261.426,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Firework" : {
+      "URL" : "https://open.spotify.com/track/4lCv7b86sLynZbXhfScfm2",
+      "artist" : "Katy Perry",
+      "downvotes" : 0,
+      "genre" : "dance pop",
+      "length" : 227.88,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Freaky Friday" : {
+      "URL" : "https://open.spotify.com/track/10Igtw8bSDyyFs7KIsKngZ",
+      "artist" : "lil dicky",
+      "downvotes" : 0,
+      "genre" : "hip hop",
+      "length" : 216.631,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Glad You came" : {
+      "URL" : "https://open.spotify.com/track/3AGOgQzp0YcPH41u9p7dOp",
+      "artist" : "The Wanted",
+      "downvotes" : 0,
+      "genre" : "boy band",
+      "length" : 198.186,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Losers" : {
+      "URL" : "https://open.spotify.com/track/1bAvtmTl0F9loyz9AwPwp7",
+      "artist" : "The Weeknd",
+      "downvotes" : 0,
+      "genre" : "canadian pop",
+      "length" : 281.146,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Luv" : {
+      "URL" : "https://open.spotify.com/track/16Ah4QqH4mgYVXqfC4mdSd",
+      "artist" : "Tory Lanez",
+      "downvotes" : 0,
+      "genre" : "canadian hip hop",
+      "length" : 228.64,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Maps" : {
+      "URL" : "https://open.spotify.com/track/4gbVRS8gloEluzf0GzDOFc",
+      "artist" : "Maroon 5",
+      "downvotes" : 0,
+      "genre" : "pop",
+      "length" : 189.959,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Million Bucks" : {
+      "URL" : "https://open.spotify.com/track/6Hx7kdHB9kGdxnw2EwSx2V",
+      "artist" : "Smallpools",
+      "downvotes" : 0,
+      "genre" : "indie pop",
+      "length" : 239.893,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Nowadays" : {
+      "URL" : "https://open.spotify.com/track/689uBlyIufk2LUhAwjny4w",
+      "artist" : "Lil Skies",
+      "downvotes" : 0,
+      "genre" : "rap",
+      "length" : 203.907,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Reminder" : {
+      "URL" : "https://open.spotify.com/track/37F0uwRSrdzkBiuj0D5UHI",
+      "artist" : "The Weeknd",
+      "downvotes" : 0,
+      "genre" : "canadian pop",
+      "length" : 218.88,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Say It" : {
+      "URL" : "https://open.spotify.com/track/2Gyc6e2cLxA5hoX1NOvYnU",
+      "artist" : "Tory Lanez",
+      "downvotes" : 0,
+      "genre" : "canadian hip hop",
+      "length" : 237.786,
+      "uploads" : 2,
+      "upvotes" : 0
+    },
+    "Secrets" : {
+      "URL" : "https://open.spotify.com/track/1NhPKVLsHhFUHIOZ32QnS2",
+      "artist" : "One Republic",
+      "downvotes" : 0,
+      "genre" : "dance pop",
+      "length" : 224.693,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Sidewalks" : {
+      "URL" : "https://open.spotify.com/track/4h90qkbnW1Qq6pBhoPvwko",
+      "artist" : "The Weeknd",
+      "downvotes" : 0,
+      "genre" : "canadian pop",
+      "length" : 231.36,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Street Fight" : {
+      "URL" : "https://open.spotify.com/track/0hxy93CbIX7Hd5WXaVjx5R",
+      "artist" : "Smallpools",
+      "downvotes" : 0,
+      "genre" : "indie pop",
+      "length" : 203.453,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Weekend" : {
+      "URL" : "https://open.spotify.com/track/1VCHNbal0VtE2plMRzvoho",
+      "artist" : "Louis the Child",
+      "downvotes" : 0,
+      "genre" : "edm",
+      "length" : 175.058,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "Won't Go Home Without You" : {
+      "URL" : "https://open.spotify.com/track/0tuyEYTaqLxE41yGHSsXjy",
+      "artist" : "Maroon 5",
+      "downvotes" : 0,
+      "genre" : "pop",
+      "length" : 231.173,
+      "uploads" : 1,
+      "upvotes" : 0
+    },
+    "stung" : {
+      "URL" : "https://open.spotify.com/track/2VaMCNvcshu99Nkt2opMtF",
+      "artist" : "quinn xcii",
+      "downvotes" : 0,
+      "genre" : "indie pop rap",
+      "length" : 234.661,
+      "uploads" : 1,
+      "upvotes" : 0
+    }
+  },
+  "users" : {
+    "kb1196@yahoo<>com" : {
+      "added" : {
+        "0" : "null",
+        "Apologize" : {
+          "URL" : "https://open.spotify.com/track/1NrJYpdAi7uosDRPmSYrsG",
+          "artist" : "One Republic",
+          "downvotes" : 0,
+          "genre" : "dance pop",
+          "length" : 208.106,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Glad You came" : {
+          "URL" : "https://open.spotify.com/track/3AGOgQzp0YcPH41u9p7dOp",
+          "artist" : "The Wanted",
+          "downvotes" : 0,
+          "genre" : "boy band",
+          "length" : 198.186,
+          "uploads" : 1,
+          "upvotes" : 0
+        }
+      },
+      "coins" : {
+        "remaining" : -67
+      },
+      "downvoted" : {
+        "0" : "null",
+        "Nowadays" : {
+          "artist" : "Lil Skies",
+          "genre" : "rap",
+          "length" : "3:23"
+        }
+      },
+      "permission" : "user",
+      "upvoted" : {
+        "Blank Space" : {
+          "artist" : "Taylor Swift",
+          "genre" : "dance pop",
+          "length" : "3:51"
+        },
+        "Firework" : {
+          "artist" : "Katy Perry",
+          "genre" : "dance pop",
+          "length" : "3:47"
+        },
+        "Maps" : {
+          "artist" : "Maroon 5",
+          "genre" : "pop",
+          "length" : "3:09"
+        },
+        "Nowadays" : {
+          "artist" : "Lil Skies",
+          "genre" : "rap",
+          "length" : "3:23"
+        },
+        "Reminder" : {
+          "artist" : "The Weeknd",
+          "genre" : "canadian pop",
+          "length" : "3:38"
+        },
+        "Sidewalks" : {
+          "artist" : "The Weeknd",
+          "genre" : "canadian pop",
+          "length" : "3:51"
+        },
+        "Weekend" : {
+          "artist" : "Louis the Child",
+          "genre" : "edm",
+          "length" : "2:55"
+        },
+        "With Them" : {
+          "artist" : "Young Thug",
+          "genre" : "dwn trap",
+          "length" : "3:17"
+        },
+        "stung" : {
+          "artist" : "quinn xcii",
+          "genre" : "indie pop rap",
+          "length" : "3:54"
+        }
+      }
+    },
+    "kevin<>bu@duke<>edu" : {
+      "added" : "null",
+      "coins" : {
+        "remaining" : 10
+      },
+      "downvoted" : "null",
+      "permission" : "admin",
+      "uniqueID" : "9doggo5",
+      "upvoted" : "null"
+    },
+    "sherrycherry123@gmail<>com" : {
+      "added" : {
+        "21 Guns" : {
+          "URL" : "https://open.spotify.com/track/64yrDBpcdwEdNY9loyEGbX",
+          "artist" : "Green Day",
+          "downvotes" : 0,
+          "genre" : "alternative metal",
+          "length" : 321.093,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Back to Back" : {
+          "URL" : "https://open.spotify.com/track/5lFDtgWsjRJu8fPOAyJIAK",
+          "artist" : "Drake",
+          "downvotes" : 0,
+          "genre" : "canadian hip hop",
+          "length" : 170.637,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Boulevard of Broken Dreams" : {
+          "URL" : "https://open.spotify.com/track/0MsrWnxQZxPAcov7c74sSo",
+          "artist" : "Green Day",
+          "downvotes" : 0,
+          "genre" : "alternative metal",
+          "length" : 493.4,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Breakeven" : {
+          "URL" : "https://open.spotify.com/track/38xWaVFKaxZlMFvzNff2aW",
+          "artist" : "The Script",
+          "downvotes" : 0,
+          "genre" : "celtic rock",
+          "length" : 261.426,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Losers" : {
+          "URL" : "https://open.spotify.com/track/1bAvtmTl0F9loyz9AwPwp7",
+          "artist" : "The Weeknd",
+          "downvotes" : 0,
+          "genre" : "canadian pop",
+          "length" : 281.146,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Luv" : {
+          "URL" : "https://open.spotify.com/track/16Ah4QqH4mgYVXqfC4mdSd",
+          "artist" : "Tory Lanez",
+          "downvotes" : 0,
+          "genre" : "canadian hip hop",
+          "length" : 228.64,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Million Bucks" : {
+          "URL" : "https://open.spotify.com/track/6Hx7kdHB9kGdxnw2EwSx2V",
+          "artist" : "Smallpools",
+          "downvotes" : 0,
+          "genre" : "indie pop",
+          "length" : 239.893,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Say It" : {
+          "URL" : "https://open.spotify.com/track/2Gyc6e2cLxA5hoX1NOvYnU",
+          "artist" : "Tory Lanez",
+          "downvotes" : 0,
+          "genre" : "canadian hip hop",
+          "length" : 237.786,
+          "uploads" : 2,
+          "upvotes" : 0
+        },
+        "Secrets" : {
+          "URL" : "https://open.spotify.com/track/1NhPKVLsHhFUHIOZ32QnS2",
+          "artist" : "One Republic",
+          "downvotes" : 0,
+          "genre" : "dance pop",
+          "length" : 224.693,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Street Fight" : {
+          "URL" : "https://open.spotify.com/track/0hxy93CbIX7Hd5WXaVjx5R",
+          "artist" : "Smallpools",
+          "downvotes" : 0,
+          "genre" : "indie pop",
+          "length" : 203.453,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Tell Your Friends" : {
+          "URL" : "https://open.spotify.com/track/1mhVXWduD8ReDwusfaHNwU",
+          "artist" : "The Weeknd",
+          "downvotes" : 0,
+          "genre" : "canadian pop",
+          "length" : 334.333,
+          "uploads" : 1,
+          "upvotes" : 0
+        },
+        "Wounds" : {
+          "URL" : "https://open.spotify.com/track/5Wr4ujVuTDx08xdQeNzbhL",
+          "artist" : "Quinn XCII",
+          "downvotes" : 0,
+          "genre" : "indie pop rap",
+          "length" : 211.5,
+          "uploads" : 1,
+          "upvotes" : 0
+        }
+      },
+      "coins" : {
+        "remaining" : 1
+      },
+      "downvoted" : {
+        "Sidewalks" : {
+          "artist" : "The Weeknd",
+          "genre" : "canadian pop",
+          "length" : "3:51"
+        }
+      },
+      "permission" : "admin",
+      "uniqueID" : "9doggo5",
+      "upvoted" : {
+        "Luv" : {
+          "artist" : "Tory Lanez",
+          "genre" : "canadian hip hop",
+          "length" : "3:48"
+        },
+        "stung" : {
+          "artist" : "quinn xcii",
+          "genre" : "indie pop rap",
+          "length" : "3:54"
+        }
+      }
+    }
+  }
+}

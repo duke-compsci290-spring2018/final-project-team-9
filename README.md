@@ -27,5 +27,8 @@ Frameworks:
 We chose to use Vue because that's ultimately what we're most familiar with: we didn't think it would be feasible to learn an entirely new framework in a matter of one month. We liked how easy it was to bind form data with Vue, as this was a huge component of our project. 
 We also used D3 for data visualization purposes. We represented a user's upvoted song genres in a horizontal bar chart to display to them what their preferences may be.
 
+Firebase Database:
+Exported JSON file is in final project folder
+
 
 
