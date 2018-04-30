@@ -1,13 +1,13 @@
 <template>
 	<div id="Admin">
 	<h2>Hello, Admin</h2>
-	</div>
 
 	<p>If you have administrator privileges, please enter your email along with your unique identifier</p>
     <input class="email" placeholder="Enter your email" v-model="email">
     <input class="uniqueID" placeholder="Enter your unique identifier" v-model="uniqueID">
     <button type="button" class="btn" id="login" v-on:click="authenticate(email, uniqueID)">Login</button><br>
     <br>
+  </div>
 
 </template>
 
@@ -19,7 +19,7 @@ export default {
 
   firebase: {
   	songs: songs,
-  	usersRef: users
+  	//usersRef: users
   },
 
   data () {
