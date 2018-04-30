@@ -18,6 +18,7 @@
         <th id="categories">Artist</th>
         <th id="categories">Genre</th>
         <th id="categories">Length</th>
+        <th id="categories">URL</th>
       </tr>
     </table>
   </div>
@@ -65,13 +66,13 @@ export default {
           var curUpvotes = metadata["upvotes"];
           var curURL = metadata["URL"];
 
-          var display = "Song: " + curSong + "; Artist: " + curArtist + "; Genre: " + curGenre + "; Length: " + curLength;
           var trtable = document.getElementById("table");
           var tr = document.createElement("tr");
           var thSong = document.createElement("th");
           var thArtist = document.createElement("th");
           var thGenre = document.createElement("th");
           var thLength = document.createElement("th");
+          var thURL = document.createElement("th");
 
           curSong = curSong.split('<>').join(".");
           curSong = curSong.split(')(').join("#");
@@ -83,10 +84,17 @@ export default {
           thArtist.appendChild(document.createTextNode(curArtist));
           thGenre.appendChild(document.createTextNode(curGenre));
           thLength.appendChild(document.createTextNode(curLength));
+
+          var aURL = document.createElement("a");
+          aURL.appendChild(document.createTextNode("Preview"));
+          aURL.href = curURL;
+          thURL.appendChild(aURL);
+
           tr.appendChild(thSong);
           tr.appendChild(thArtist);
           tr.appendChild(thGenre);
           tr.appendChild(thLength);
+          tr.appendChild(thURL);
           trtable.appendChild(tr);
         });
     }

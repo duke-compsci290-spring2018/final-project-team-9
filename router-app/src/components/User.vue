@@ -408,10 +408,10 @@ export default {
             thGenre.appendChild(document.createTextNode(curGenre));
             thLength.appendChild(document.createTextNode(curLength));
 
-            var link=document.createElement("a");
-            link.appendChild(document.createTextNode("Link"));
-            link.href = curURL;
-            thURL.appendChild(link);
+            var aURL = document.createElement("a");
+            aURL.appendChild(document.createTextNode("Preview"));
+            aURL.href = curURL;
+            thURL.appendChild(aURL);
 
             var thUpvote = document.createElement("button");
             //thUpvote.data = "Upvote";
