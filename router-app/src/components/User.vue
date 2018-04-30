@@ -1,11 +1,6 @@
 <template>
     <div id="app">
       <div id="authentication">
-        <!-- <input class="email" placeholder="Enter your email" v-model="createEmail">
-        <input class="password" placeholder="Create a password" v-model="createPassword">
-        <button type="button" class="btn" id="createAccount" v-on:click="createAccount(createEmail, createPassword)">Create account</button><br>
-        <br> -->
-
         <div id="hello"></div>
 
         <button v-on:click="userprint">View your profile</button>
@@ -112,43 +107,10 @@ export default {
   computed: {
     curEmail: function(){
       return this.email.split('.').join("<>");
-
-
     }
   },
 
   methods: {
-    // createAccount: function(email, password) {
-    //   //add info to credentials database
-    //   console.log("createAccount test");
-    //   console.log(email);
-    //   console.log(password);
-
-    //   var temp = email.split('.').join("<>");
-    //   var ref = db.ref('users/' + temp);
-    //   ref.once("value")
-    //     .then(function(snapshot) {
-    //       if(!(snapshot.exists())) {
-    //         db.ref('users/' + temp).set({
-    //           added: ["null"],
-    //           coins: 10,
-    //           downvoted: ["null"],
-    //           password: password,
-    //           permission: "user",
-    //           saved: ["null"],
-    //           upvoted: ["null"]
-    //         });
-    //       }
-    //       else {
-    //         alert("This email already exists in our system");
-    //       }
-    //       return true;
-    //     });
-    //   this.coins = 10;
-    //   this.permission = "user";
-    //   this.createEmail = "";
-    //   this.createPassword = ""; 
-    // },
     verifyAdmin: function(email, uniqueID){
       if (email == "sherrycherry123@gmail.com" || email == "kevin.bu@duke.edu"){
         console.log("email passed");
@@ -158,38 +120,6 @@ export default {
         }
       }
       console.log(this.isAdmin);
-/*
-      var temp = email.split('.').join("<>");
-      db.ref('users/' + temp + '/uniqueID').once("value")
-        .then(function(snapshot) {
-          var realUniqueID = snapshot.val();
-          if (uniqueID === realUniqueID) {//<><><>
-            //<router-link to="/admin">Admin</router-link>
-            var divAdmin = document.getElementById("admin");
-            var routerLink = document.createElement("router-link");
-
-            routerLink.appendChild(document.createTextNode("Adam"));
-
-            var thDownvote = document.createElement("button");
-            //thDownvote.data = "Downvote";
-            thDownvote.innerHTML = "Downvote";
-            thDownvote.onclick = function() {
-              db.ref('users/' + temp + '/downvoted/' + curSong).set({
-                artist: curArtist,
-                genre: curGenre,
-                length: curLength
-              });
-              thDownvote.style.backgroundColor = "red";
-            };
-
-            tr.appendChild(thDownvote);
-            trtable.appendChild(tr);
-          }
-          else {
-            console.log("Not authenticated");
-          }
-          return true;
-        });*/
     },
     userprint: function(){
       console.log(this.users);
@@ -266,41 +196,6 @@ export default {
         successadd.appendChild(document.createTextNode("You successfully added " + this.song + " by " + this.artist));
         addbox.appendChild(successadd);
 
-        //getting access token for api call 
-        // let accessToken = window.location.hash.substring(20);
-        // console.log(accessToken);
-
-        //TODO: fix bugs with non normal input 
-        
-        //fetch track info
-        // this.tempURL = fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20track:' + thisSong + '&type=track', {
-        //   headers: {'Authorization': 'Bearer ' + accessToken}
-        // }).then(response=>response.json())
-        // .then(data=>this.setTrack(data));
-
-        // fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20track:' + thisSong + '&type=track', {
-        //   headers: {'Authorization': 'Bearer ' + accessToken}
-        // }).then(response=>response.json())
-        // .then(data=>this.setTrack(data));
-        // //.then(data=>this.tempURL=data);
-        // //console.log(this.tempURL);
-        // //console.log("tandooooooooor");
-
-        // //fetch user info and email 
-        // fetch('https://api.spotify.com/v1/me', {
-        //   headers: {'Authorization': 'Bearer ' + accessToken}
-        // }).then(response=>response.json())
-        // .then(data=>this.setEmail(data.email));
-
-        // //fetch artist info for genre 
-        // fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '&type=artist', {
-        //   headers: {'Authorization': 'Bearer ' + accessToken}
-        // }).then(response=>response.json())
-        // .then(data=>this.setGenre(data));
-
-        //check to make sure user has not already uploaded this song
-        //if song match found in Spotify API, grab genre, length, and URL info
-
         var curEmail = this.email.split('.').join("<>");
         var downvotesCount = 0;
         var uploadsCount = 1;
@@ -347,17 +242,6 @@ export default {
 
           this.song = "";
           this.artist = "";
-          // var postData = {
-          //   genre: this.tempGenre,
-          //   length: this.tempLength,
-          //   URL: this.tempURL
-          // }
-          // var newPostKey = db.ref().child('posts').push().key;
-          // var updates = {};
-          // updates['/songs/' + temp + '/' + newPostKey] = postData;
-          // updates['/users/' + curEmail + '/added/' + temp + '/' + newPostKey] =postData;
-          // return db.ref().update(updates);
-
           this.verified = false;
           this.tempGenre = "";
           this.tempLength = "";
@@ -365,9 +249,8 @@ export default {
         
         var tempEmail = this.curEmail;
         db.ref('users/' + tempEmail + '/coins/').once("value")
-        .then(function(snapshot) {//<><><>
+        .then(function(snapshot) {
             var coincount = snapshot.child("remaining").val()+2;
-            //var updates['/users/' + this.curEmail + '/coins'] = coincount;
             alert(coincount);
             var postData = {
               remaining: coincount
@@ -375,8 +258,6 @@ export default {
             var updates = {};
             updates['/users/' + tempEmail + '/coins'] = postData;
             db.ref().update(updates);
-
-            //db.ref().update(updates);
 
             var newcc = "<h3>You have " + coincount + " coins remaining!";
             document.getElementById("coinremain").innerHTML = newcc;
@@ -400,9 +281,6 @@ export default {
         headers: {'Authorization': 'Bearer ' + accessToken}
       }).then(response=>response.json())
       .then(data=>this.setTrack(data));
-      //.then(data=>this.tempURL=data);
-      //console.log(this.tempURL);
-      //console.log("tandooooooooor");
 
       //fetch artist info for genre 
       fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '&type=artist', {
@@ -458,17 +336,6 @@ export default {
       console.log(this.tempGenre);
     },
     generateSong: function(artist, track) {
-      // var sherry = "sherrycherry123@gmail.com";
-      // var temp = sherry.split('.').join("<>");
-      // db.ref('users/' + temp).set({
-      //    added: "null",
-      //    coins: { "remaining": 10 },
-      //    downvoted: "null",
-      //    permission: "admin",
-      //    uniqueID: "14cate5",
-      //    upvoted: "null"
-      // })
-
       //make sure that songs are not repeatedly generated
       console.log(this.permission);
       if (this.permission != "user") {
