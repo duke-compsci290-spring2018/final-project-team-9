@@ -1,5 +1,6 @@
 <template>
 	<div id="Admin">
+<<<<<<< HEAD
 		<h2>Hello, Admin</h2>
 		<p>If you have administrator privileges, please enter your email along with your unique identifier to get authenticated.</p>
 	    <input class="email" placeholder="Enter your email" v-model="email">
@@ -7,6 +8,17 @@
 	    <button type="button" class="btn" id="login" v-on:click="authenticate(email, uniqueID)">Login</button><br>
 	    <br>
 	</div>
+=======
+	<h2>Hello, Admin</h2>
+
+	<p>If you have administrator privileges, please enter your email along with your unique identifier</p>
+    <input class="email" placeholder="Enter your email" v-model="email">
+    <input class="uniqueID" placeholder="Enter your unique identifier" v-model="uniqueID">
+    <button type="button" class="btn" id="login" v-on:click="authenticate(email, uniqueID)">Login</button><br>
+    <br>
+  </div>
+
+>>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
 </template>
 
 <script>
@@ -17,7 +29,11 @@ export default {
 
   firebase: {
   	songs: songs,
+<<<<<<< HEAD
   	users: users
+=======
+  	//usersRef: users
+>>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
   },
 
   data () {

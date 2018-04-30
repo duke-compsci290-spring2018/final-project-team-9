@@ -7,12 +7,20 @@
         <br> -->
 
         <div id="hello"></div>
+<<<<<<< HEAD
         <p>u have {{coins}} coins remaining</p>
         <button v-on:click="userprint">View your profile</button>
+=======
+>>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
 
+        <button v-on:click="userprint">View your profile</button>
         <div id="coinremain"></div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
         <div id="userinfo"></div>
+
         
         <div>
           <p id="inst">How to add a song to our crowdsourced database:</p>
@@ -113,15 +121,24 @@ export default {
       //return curEmail;
       //console.log(user.child(curEmail));
       //return user.ref(child(curEmail).child("added"));
+<<<<<<< HEAD
+=======
+
+>>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
     },
     coins: function(){
       //display coin data
       db.ref('users/' + this.curEmail + '/coins/remaining').once("value")
         .then(function(snapshot) {
+<<<<<<< HEAD
           var coincount = snapshot.val();
 
           //console.log(this.curEmail);
           console.log(snapshot)
+=======
+          var cc = snapshot.val();
+          //console.log(cc);
+>>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
 
 
           return coincount;
@@ -161,10 +178,24 @@ export default {
     //   this.createEmail = "";
     //   this.createPassword = ""; 
     // },
+
     userprint: function(){
       console.log(this.users);
       console.log(this.profilesongs);
       console.log(this.curEmail);
+      //display coins
+      db.ref('users/' + this.curEmail + '/coins/').once("value")
+        .then(function(snapshot) {
+          var coincount = snapshot.child("remaining").val();
+
+          var headline = document.getElementById("coinremain");
+          var greet = document.createElement("h3");
+          greet.appendChild(document.createTextNode("You have " + coincount + " coins remaining!"));
+          headline.appendChild(greet);
+
+          return coincount;
+        });
+
       //display added songs
       db.ref('users/' + this.curEmail + '/added/').once("value")
         .then(function(snapshot) {
@@ -640,6 +671,7 @@ export default {
     .then(data=>this.setEmail(data.email));
 
     //coins
+<<<<<<< HEAD
     db.ref('users/' + this.email.split('.').join("<>") + '/coins/').once("value")
         .then(function(snapshot) {
           console.log(snapshot)
@@ -655,6 +687,8 @@ export default {
           return coincount;
         });
     
+=======
+>>>>>>> 258422925ee279ffb6ac94c611e71f3a3c47fc60
   }
 }
 </script>
