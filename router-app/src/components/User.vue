@@ -54,7 +54,7 @@
             <th id="categories">Genre</th>
             <th id="categories">Length</th>
             <th id="categories">Upvote/Downvote</th>
-            <th id="categories urlcat">URL</th>
+            <th id="categories" class="urlcat">URL</th>
             <!--<th id="categories">Downvote</th>-->
           </tr>
         </table><br>
@@ -540,7 +540,11 @@ export default {
             thArtist.appendChild(document.createTextNode(curArtist));
             thGenre.appendChild(document.createTextNode(curGenre));
             thLength.appendChild(document.createTextNode(curLength));
-            document.getElementById("urlcat").innerHTML = "<a href=" + curURL + "> Listen Here </a>";
+
+            var link=document.createElement("a");
+            link.appendChild(document.createTextNode("Link"));
+            link.href = curURL;
+            thURL.appendChild(link);
 
             var thUpvote = document.createElement("button");
             //thUpvote.data = "Upvote";
@@ -571,6 +575,7 @@ export default {
             tr.appendChild(thLength);
             tr.appendChild(thUpvote);
             tr.appendChild(thDownvote);
+            tr.appendChild(thURL);
             trtable.appendChild(tr);
         });
       }
