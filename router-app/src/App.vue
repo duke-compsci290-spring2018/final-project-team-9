@@ -55,10 +55,19 @@ a {
   color: #42b983;
 }
 
+body {
+  margin: 0 0 100px;
+  padding: 25px;
+}
+
 footer{
   margin: 10px;
   margin-top: 20px;
   padding: 10px;
   background-color: #ccffe6;
+  /*position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;*/
 }
 </style>
