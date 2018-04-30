@@ -12,6 +12,10 @@
         <br> -->
         <div id="hello"></div>
         <p>You have {{ coins }} coins remaining.</p>
+        <button v-on:click="userprint">Click here to see your profile!</button>
+        <div id="userinfo"></div>
+        
+
         <div>
           <p id="inst">Instructions: Enter the title of the song you'd like to add, followed by the artist. Verify to make sure it exists in the Spotify database first-- once it is verified, the verify button will turn green, and you will be able to add it to our song database.</p>
         </div>
@@ -59,15 +63,15 @@
 </template>
 
 <script>
-import {db, songs, users} from './database'
+import {db, songs, usersRef} from './database'
 import queryString from 'query-string'
 
 export default {
   name: 'User',
 
   firebase: {
-    songs: songs,
-    users: users
+    //songs: songs,
+    //userRef: users
   },
 
   data() {
@@ -86,14 +90,37 @@ export default {
       song: "",
       upvoted: "",
       verified: false,
+      viewProfile: false,
       //these are temp variables for track and artist data before they're pushed to fb
       tempURL: "",
       tempPopularity: 0,
       tempLength: "",
-      tempGenre: ""
+      tempGenre: "",
+      users: usersRef,
+
+      dbusers: db.ref('users'),
+      profilesongs: db.ref('users/' + this.curEmail + '/added/')
+
     }
   },
-  
+  computed: {
+    curEmail: function(){
+      return this.email.split('.').join("<>");
+      /*var superdata;
+      db.ref('users/' + curEmail + "/added/").once("value")
+          .then(function(snapshot) {
+            var superdata = snapshot.val();
+            console.log(superdata);
+            return superdata;
+          });
+      console.log(superdata);*/
+
+      //return curEmail;
+      //console.log(user.child(curEmail));
+      //return user.ref(child(curEmail).child("added"));
+    }
+  },
+
   methods: {
     // authenticate: function(email, password) {
     //   //authenticate user if info match in credentials database
@@ -145,7 +172,32 @@ export default {
     //   this.createEmail = "";
     //   this.createPassword = ""; 
     // },
-    viewProfile: function() {
+    userprint: function(){
+      console.log(this.users);
+      console.log(this.profilesongs);
+      console.log(this.curEmail);
+      db.ref('users/' + this.curEmail + '/added/').once("value")
+        .then(function(snapshot) {
+          var allSongs = snapshot.val();
+          console.log(allSongs);
+
+          var rootbox = document.getElementById("userinfo");
+
+          snapshot.forEach(function(childSnapshot) {
+            var toadd = document.createElement("p");
+            rootbox.appendChild(document.createTextNode("snapshot: " + childSnapshot.key + childSnapshot.ref(childSnapshot.key +"/artist")));
+            console.log(childSnapshot);
+            rootbox.appendChild(toadd);
+          })
+      });
+
+    },
+    showProfile: function() {
+      console.log("yoyo!");
+      var curEmail = this.email.split('.').join("<>");
+      console.log(this.user.child(curEmail));
+      return this.user.child(curEmail).child("added");
+
       //maybe just do this in HTML
     },
     viewMusic: function() {

@@ -12,5 +12,5 @@
 
 // global reference to remote database app
 export const db = fb.database()
-export const songs = db.ref('songs')
-export const users = db.ref('users')
+export const songs = db.ref('songs/')
+export const usersRef = db.ref('users/')
