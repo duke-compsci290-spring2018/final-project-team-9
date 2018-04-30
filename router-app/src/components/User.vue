@@ -114,19 +114,12 @@ export default {
   methods: {
     verifyAdmin: function(email, uniqueID){
       if (email == "sherrycherry123@gmail.com" || email == "kevin.bu@duke.edu"){
-        console.log("email passed");
         if (uniqueID == "9doggo5") {
-          console.log("id passed");
           this.isAdmin = true;
         }
       }
-      console.log(this.isAdmin);
     },
     userprint: function(){
-      console.log(this.users);
-      console.log(this.profilesongs);
-      console.log(this.curEmail);
-      //display coins
       db.ref('users/' + this.curEmail + '/coins/').once("value")
         .then(function(snapshot) {
           var coincount = snapshot.child("remaining").val();
@@ -143,7 +136,6 @@ export default {
       db.ref('users/' + this.curEmail + '/added/').once("value")
         .then(function(snapshot) {
           var allSongs = snapshot.val();
-          console.log(allSongs);
 
           var rootbox = document.getElementById("userinfo");
           var heading = document.createElement("h2");
@@ -161,7 +153,6 @@ export default {
       db.ref('users/' + this.curEmail + '/upvoted/').once("value")
         .then(function(snapshot) {
           var allSongs = snapshot.val();
-          console.log(allSongs);
 
           var rootbox = document.getElementById("userinfo");
           var heading = document.createElement("h2");
@@ -177,12 +168,9 @@ export default {
 
     },
     showProfile: function() {
-      console.log("yoyo!");
       var curEmail = this.email.split('.').join("<>");
-      console.log(this.user.child(curEmail));
       return this.user.child(curEmail).child("added");
 
-      //maybe just do this in HTML
     },
     addSong: function(song, artist) {
       if (this.verified === false) {
@@ -252,7 +240,6 @@ export default {
         db.ref('users/' + tempEmail + '/coins/').once("value")
         .then(function(snapshot) {
             var coincount = snapshot.child("remaining").val()+2;
-            alert(coincount);
             var postData = {
               remaining: coincount
             };
@@ -274,10 +261,8 @@ export default {
       var thisArtist = artistin.replace(/\s/, '%20');
       thisArtist = thisArtist.replace(/'/, '%27');
 
-      console.log(thisSong + " " + thisArtist);
 
       let accessToken = window.location.hash.substring(20);
-        console.log(accessToken);
       fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20track:' + thisSong + '&type=track', {
         headers: {'Authorization': 'Bearer ' + accessToken}
       }).then(response=>response.json())
@@ -294,7 +279,6 @@ export default {
       if (email=="") {
         alert("Please Authenticate");
       }
-      console.log(this.email);
       var headline = document.getElementById("hello");
       var greet = document.createElement("h2");
       greet.appendChild(document.createTextNode("Hello, " + this.email + "!"));
@@ -303,42 +287,34 @@ export default {
     },
     setTrack: function(data){
       //sets the track data from spotify api
-      console.log(data);
       if (data.tracks.items[0] == undefined){
         alert("Invalid song, please try again");
         return;
       }
       //obtaining URL, popularity, and legnth data 
       this.tempURL = data.tracks.items[0].external_urls.spotify;
-      console.log(this.tempURL);
       this.tempPopularity = data.tracks.items[0].popularity;
       var previewURL = data.tracks.items[0].preview_url;
       this.tempLength = data.tracks.items[0].duration_ms / 1000; 
 
-      console.log(this.tempPopularity + " " + this.tempLength);
 
 
       if (this.tempURL=="") {
         alert("Invalid song, please try again");
         return;
       }
-      console.log("verified in settrack");
       this.verified = true;
     },
     setGenre: function(data){
       //sets genre from spotify artist api
-      console.log(data);
       if (data.artists.items[0] == undefined){
         alert("Invalid song, please try again");
         return;
       }
       this.tempGenre = data.artists.items[0].genres[0];
 
-      console.log(this.tempGenre);
     },
     generateSong: function(artist, track) {
-      //make sure that songs are not repeatedly generated
-      console.log(this.permission);
       if (this.permission != "user") {
         alert("You have not successfully logged in. Please do so first.")
         return;
@@ -351,7 +327,6 @@ export default {
         ref.once("value")
           .then(function(snapshot) {
             var curCoins = snapshot.val().coins.remaining;
-            console.log(curCoins);
             var postData = {
               remaining: curCoins-1
             };
@@ -361,7 +336,6 @@ export default {
 
             var newcc = "<h3>You have " + curCoins-1 + " coins remaining!";
             document.getElementById("coinremain").innerHTML = newcc
-            console.log("success");
             return;
           });
 
@@ -455,7 +429,6 @@ export default {
           var upvoted = snapshot.val();
           var genresDict = {};
           Object.keys(upvoted).forEach(function(key) {
-            console.log(key, upvoted[key]);
             if (upvoted[key]["genre"] in genresDict) {
               genresDict[upvoted[key]["genre"]] += 1;
             }
@@ -464,11 +437,8 @@ export default {
             }
           });
 
-          console.log(genresDict);
           var values = Object.values(genresDict);//song counts
           var keys = Object.keys(genresDict);//genres
-          console.log(values);
-          console.log(keys);
           var counts = {};
           var width = 400;
           var scaleFactor = 25;
@@ -504,7 +474,6 @@ export default {
   },
   mounted: function(){
     let accessToken = window.location.hash.substring(20);
-    console.log(accessToken);
     //fetch user info and email 
     fetch('https://api.spotify.com/v1/me', {
       headers: {'Authorization': 'Bearer ' + accessToken}
