@@ -16,7 +16,9 @@
       <tr>
         <th id="categories">Song</th>
         <th id="categories">Artist</th>
-        <!--<th id="categories">Downvote</th>-->
+        <th id="categories">Genre</th>
+        <th id="categories">Length</th>
+        <th id="categories">URL</th>
       </tr>
     </table><br>
 	</div>
@@ -118,27 +120,48 @@ export default {
       .then(function(snapshot) {
         console.log(snapshot);
         snapshot.forEach(function(childSnapshot) {
-          var curSong = childSnapshot.key;
-          var curArtist = childSnapshot.child("artist").val();
+			var curSong = childSnapshot.key;
+			var curArtist = childSnapshot.child("artist").val();
+			var curGenre = childSnapshot.child("genre").val();
+			var curLength = childSnapshot.child("length").val();
+          	var minutes = Math.floor(curLength/60);
+        	var seconds = Math.floor(curLength - 60*minutes);
+        	if (seconds < 10) {
+          		seconds = "0" + seconds;
+        	}
+        	curLength = minutes + ":" + seconds;
+          	var curURL = childSnapshot.child("URL").val();
 
-          var trtable = document.getElementById("table");
-          var tr = document.createElement("tr");
-          var thSong = document.createElement("th");
-          var thArtist = document.createElement("th");
+			var trtable = document.getElementById("table");
+			var tr = document.createElement("tr");
+			var thSong = document.createElement("th");
+			var thArtist = document.createElement("th");
+			var thGenre = document.createElement("th");
+			var thLength = document.createElement("th");
+			var thURL = document.createElement("th");
 
-          curSong = curSong.split('<>').join(".");
-          curSong = curSong.split(')(').join("#");
-          curSong = curSong.split('&&').join("$");
-          curSong = curSong.split('%%').join("[");
-          curSong = curSong.split('@@').join("]");
+			curSong = curSong.split('<>').join(".");
+			curSong = curSong.split(')(').join("#");
+			curSong = curSong.split('&&').join("$");
+			curSong = curSong.split('%%').join("[");
+			curSong = curSong.split('@@').join("]");
 
-          thSong.appendChild(document.createTextNode(curSong));
-          thArtist.appendChild(document.createTextNode(curArtist));
+			thSong.appendChild(document.createTextNode(curSong));
+			thArtist.appendChild(document.createTextNode(curArtist));
+			thGenre.appendChild(document.createTextNode(curGenre));
+			thLength.appendChild(document.createTextNode(curLength));
 
-          tr.appendChild(thSong);
-          tr.appendChild(thArtist);
-          trtable.appendChild(tr);
-          
+			var aURL = document.createElement("a");
+			aURL.appendChild(document.createTextNode("Preview"));
+			aURL.href = curURL;
+			thURL.appendChild(aURL);
+
+			tr.appendChild(thSong);
+			tr.appendChild(thArtist);
+			tr.appendChild(thGenre);
+			tr.appendChild(thLength);
+			tr.appendChild(thURL);
+			trtable.appendChild(tr);   
       });
     })
   }

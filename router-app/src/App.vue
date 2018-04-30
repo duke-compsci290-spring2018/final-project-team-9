@@ -11,7 +11,7 @@
 
     <router-link :to="{ name: 'Home' }">Home</router-link>
     <router-link to="/login">Login</router-link>
-    <router-link to="/user">User</router-link>
+    <!-- <router-link to="/user">User</router-link> -->
     <!-- <router-link to="/admin">Admin</router-link> -->
     <router-view/>
 
