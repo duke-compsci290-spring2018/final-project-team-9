@@ -100,40 +100,19 @@ export default {
       users: usersRef,
 
       dbusers: db.ref('users'),
-      profilesongs: db.ref('users/' + this.curEmail + '/added/')
+      profilesongs: db.ref('users/' + this.curEmail + '/added/'),
+
 
     }
   },
   computed: {
     curEmail: function(){
       return this.email.split('.').join("<>");
-      /*var superdata;
-      db.ref('users/' + curEmail + "/added/").once("value")
-          .then(function(snapshot) {
-            var superdata = snapshot.val();
-            console.log(superdata);
-            return superdata;
-          });
-      console.log(superdata);*/
-
-      //return curEmail;
-      //console.log(user.child(curEmail));
-      //return user.ref(child(curEmail).child("added"));
-
     },
     coins: function(){
-      //display coin data
-      db.ref('users/' + this.curEmail + '/coins/').once("value")
-        .then(function(snapshot) {
-          var cc = snapshot.val();
-          //console.log(cc);
-
-          var coincount = snapshot.child("remaining").val();
-          //console.log(coincount);
-
-          return coincount;
-        });
-    }
+      return db.ref('users/' + this.curEmail + '/coins/remaining');
+      //this doesnt work
+    } 
   },
 
   methods: {
@@ -340,7 +319,7 @@ export default {
             });
             return true;
           });
-          this.coins += 1;  
+
           this.song = "";
           this.artist = "";
           // var postData = {
@@ -358,6 +337,13 @@ export default {
           this.tempGenre = "";
           this.tempLength = "";
           this.tempURL = "";
+
+        db.ref('users/' + this.curEmail + '/coins/').once("value")
+        .then(function(snapshot) {
+          var coincount = snapshot.child("remaining").val()+2;
+            var newcc = "<h3>You have " + coincount + " coins remaining!";
+            document.getElementById("coinremain").innerHTML = newcc;
+          })
         }
     },
     verifySong: function(songin, artistin) {
@@ -456,6 +442,9 @@ export default {
             var updates = {};
             updates['/users/' + temp + '/coins'] = postData;
             db.ref().update(updates);
+
+            var newcc = "<h3>You have " + curCoins-1 + " coins remaining!";
+            document.getElementById("coinremain").innerHTML = newcc
             console.log("success");
             return;
           });
