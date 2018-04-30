@@ -22,13 +22,8 @@
         </div>
         <br>
 
-        <!-- Temp testing for upvoteSong function -->
-        <button type="button" class="btn" id="add" v-on:click="upvoteSong('Yellow', 'Coldplay')">Upvote song</button><br>
-        <br>
-
         <!-- Temp testing for downvoteSong function -->
-        <button type="button" class="btn" id="add" v-on:click="downvoteSong('Yellow', 'Coldplay')">Downvote song</button><br>
-        <br>
+        <!-- <button type="button" class="btn" id="add" v-on:click="downvoteSong('Yellow', 'Coldplay')">Downvote song</button><br> -->
 
         <!-- Categories for filtering: uploads, upvotes/downvotes, genre-->
         <input type="radio" name="genre" value="Pop">Pop<br>
@@ -49,8 +44,15 @@
             <th id="categories">Artist</th>
             <th id="categories">Genre</th>
             <th id="categories">Length</th>
+            <th id="categories">Upvote/Downvote</th>
+            <!--<th id="categories">Downvote</th>-->
           </tr>
-        </table>
+        </table><br>
+        <br>
+
+        <div id="chart">
+
+        </div>
 
       </div>
     </div>
@@ -357,18 +359,22 @@ export default {
       }
       else {
         //update database to decrement coin
-        // this.coins -= 1;
 
-        // console.log(this.email);
-        // console.log("yeetete");
-        // var temp = this.email.split('.').join("<>");
-        // var ref = db.ref('users/' + temp + "/coins");
-        // this.coins = ref.once("value").then(function(snapshot) { 
-        //   var tempCoins = snapshot.val();
-        //   return tempCoins;
-        // });
-        // console.log(this.coins);
-        // console.log("sherrrrrryy");
+        var temp = this.email.split('.').join("<>");
+        var ref = db.ref('users/' + temp);
+        ref.once("value")
+          .then(function(snapshot) {
+            var curCoins = snapshot.val().coins.remaining;
+            console.log(curCoins);
+            var postData = {
+              remaining: curCoins-1
+            };
+            var updates = {};
+            updates['/users/' + temp + '/coins'] = postData;
+            db.ref().update(updates);
+            console.log("success");
+            return;
+          });
 
         var ref = db.ref('songs');
         ref.once("value")
@@ -379,13 +385,16 @@ export default {
             var curSong = Object.keys(songs)[random];
             var metadata = songs[curSong];
 
-            console.log(curSong);
-            console.log(metadata);
-
             var curArtist = metadata["artist"];
             var curDownvotes = metadata["downvotes"];
             var curGenre = metadata["genre"];
             var curLength = metadata["length"];
+            var minutes = Math.floor(curLength/60);
+            var seconds = Math.floor(curLength - 60*minutes);
+            if (seconds < 10) {
+              seconds = "0" + seconds;
+            }
+            curLength = minutes + ":" + seconds;
             var curUploads = metadata["uploads"];
             var curUpvotes = metadata["upvotes"];
             var curURL = metadata["URL"];
@@ -408,55 +417,106 @@ export default {
             thArtist.appendChild(document.createTextNode(curArtist));
             thGenre.appendChild(document.createTextNode(curGenre));
             thLength.appendChild(document.createTextNode(curLength));
+
+            var thUpvote = document.createElement("button");
+            //thUpvote.data = "Upvote";
+            thUpvote.innerHTML = "Upvote";
+            thUpvote.onclick = function() {
+              db.ref('users/' + temp + '/upvoted/' + curSong).set({
+                artist: curArtist,
+                genre: curGenre,
+                length: curLength
+              });
+              thUpvote.style.backgroundColor = "green";
+            };
+            var thDownvote = document.createElement("button");
+            //thDownvote.data = "Downvote";
+            thDownvote.innerHTML = "Downvote";
+            thDownvote.onclick = function() {
+              db.ref('users/' + temp + '/downvoted/' + curSong).set({
+                artist: curArtist,
+                genre: curGenre,
+                length: curLength
+              });
+              thDownvote.style.backgroundColor = "red";
+            };
+
             tr.appendChild(thSong);
             tr.appendChild(thArtist);
             tr.appendChild(thGenre);
             tr.appendChild(thLength);
+            tr.appendChild(thUpvote);
+            tr.appendChild(thDownvote);
             trtable.appendChild(tr);
         });
       }
-    },
-    upvoteSong: function(song, artist) {
-      var curEmail = this.email.split('.').join("<>");
-      var curSong = song.split('.').join("<>");
-      curSong = curSong.split('#').join(")(");
-      curSong = curSong.split('$').join("&&");
-      curSong = curSong.split('[').join("%%");
-      curSong = curSong.split(']').join("@@");
-
-      var ref = db.ref('songs/' + curSong);
+      //this.displayGenres();
+      var temp = this.email.split('.').join("<>");
+      var ref = db.ref('users/' + temp + '/upvoted');
       ref.once("value")
         .then(function(snapshot) {
-          var curURL = snapshot.val().URL;
-          var curDownvotes = snapshot.val().downvotes;
-          var curGenre = snapshot.val().genre;
-          var curLength = snapshot.val().length;
-          var curUploads = snapshot.val().uploads;
-          var curUpvotes = snapshot.val().upvotes;
-          db.ref('users/' + curEmail + '/upvoted/' + curSong).set({
-            URL: curURL,
-            artist: artist,
-            downvotes: curDownvotes,
-            genre: curGenre,
-            length: curLength,
-            uploads: curUploads,
-            upvotes: curUpvotes
+          var upvoted = snapshot.val();
+          var genresDict = {};
+          Object.keys(upvoted).forEach(function(key) {
+            console.log(key, upvoted[key]);
+            if (upvoted[key]["genre"] in genresDict) {
+              genresDict[upvoted[key]["genre"]] += 1;
+            }
+            else {
+              genresDict[upvoted[key]["genre"]] = 1;
+            }
           });
-          return true;
-        });
+
+        console.log(genresDict);
+        var values = Object.values(genresDict);//song counts
+        var keys = Object.keys(genresDict);//genres
+        console.log(values);
+        console.log(keys);
+        var counts = {};
+        var width = 400;
+        var scaleFactor = 25;
+        var barHeight = 40;
+        d3.select("svg").remove();
+        var graph = d3.select("#chart")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", barHeight*values.length);
+          //values.length
+        var bar = graph.selectAll("g")
+          .data(values)
+          .enter()
+          .append("g")
+          .attr("transform", function(d, i) {
+            return "translate(0," + i*barHeight + ")";
+          });
+        bar.append("rect")
+          .attr("width", function(d) {
+            return d*scaleFactor;
+          })
+          .attr("height", barHeight-1);
+        bar.append("text")
+          .attr("x", function(d) { return (d*scaleFactor); })
+          .attr("y", barHeight/2)
+          .attr("dy", ".35em")
+          .text(function(d, i) { return keys[i] + ": " + d; })
+        // }
+        //return true;
+      });
+    },
+    displayGenres: function() {
         var temp = this.email.split('.').join("<>");
-        var ref = db.ref('users/' + temp + '/saved');
+        var ref = db.ref('users/' + temp + '/upvoted');
         ref.once("value")
           .then(function(snapshot) {
-            var saved = snapshot.val();
+            var upvoted = snapshot.val();
             var genresDict = {};
-            Object.keys(saved).forEach(function(key) {
-              console.log(key, saved[key]);
-              if (saved[key]["genre"] in genresDict) {
-                genresDict[saved[key]["genre"]] += 1;
+            Object.keys(upvoted).forEach(function(key) {
+              console.log(key, upvoted[key]);
+              if (upvoted[key]["genre"] in genresDict) {
+                genresDict[upvoted[key]["genre"]] += 1;
               }
               else {
-                genresDict[saved[key]["genre"]] = 1;
+                genresDict[upvoted[key]["genre"]] = 1;
               }
             });
 
@@ -495,35 +555,6 @@ export default {
           return true;
         });
     },
-    downvoteSong: function(song, artist) {
-      var curEmail = this.email.split('.').join("<>");
-      var curSong = song.split('.').join("<>");
-      curSong = curSong.split('#').join(")(");
-      curSong = curSong.split('$').join("&&");
-      curSong = curSong.split('[').join("%%");
-      curSong = curSong.split(']').join("@@");
-
-      var ref = db.ref('songs/' + curSong);
-      ref.once("value")
-        .then(function(snapshot) {
-          var curURL = snapshot.val().URL;
-          var curDownvotes = snapshot.val().downvotes;
-          var curGenre = snapshot.val().genre;
-          var curLength = snapshot.val().length;
-          var curUploads = snapshot.val().uploads;
-          var curUpvotes = snapshot.val().upvotes;
-          db.ref('users/' + curEmail + '/downvoted/' + curSong).set({
-            URL: curURL,
-            artist: artist,
-            downvotes: curDownvotes,
-            genre: curGenre,
-            length: curLength,
-            uploads: curUploads,
-            upvotes: curUpvotes
-          });
-          return true;
-        });
-    }
   },
   mounted: function(){
     let accessToken = window.location.hash.substring(20);
@@ -533,14 +564,6 @@ export default {
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response=>response.json())
     .then(data=>this.setEmail(data.email));
-
-    var temp = this.email.split('.').join("<>");
-    var ref = db.ref('users/' + temp + "/coins");
-    this.coins = ref.once("value").then(function(snapshot) { 
-    var tempCoins = snapshot.val();
-      return tempCoins;
-    });
-    console.log(this.coins);
   }
 }
 </script>

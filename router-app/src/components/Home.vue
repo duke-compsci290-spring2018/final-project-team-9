@@ -1,16 +1,14 @@
 <template>
   <div id="app">
     <div>
-      <h2>Welcome to your song recommendation buddy</h2>
+      <h2>Welcome to Splootify, your song recommendation buddy</h2>
       <div id="description">
-        <h3>Without an account, you can only access our basic guest features</h3>
-        <h3>As a user, you will be able to <u>filter song generation criteria</u> as well as <u>save</u>, <u>downvote</u>, and <u>upvote</u> songs</h3>
-        <h3>To create an account, click the "user" tab in the upper right of this screen</h3>
+        <p>Our web application lets you generate random songs using a crowd-sourced song database. As a guest, you will only be able to use this feature. Once you authenticate your Spotify credentials, you will be able to contribute to this database, apply filtering criteria when you generate random songs, and generate playlists through upvoting and downvoting. To log in with Spotify, click the "login" tab.</p>
       </div>
     </div>
     
     <div>
-      <button type="button" class="btn" id="generateSong" v-on:click="generateSong">Get a song recommendation</button><br>
+      <button type="button" class="btn" id="generateSong" v-on:click="generateSong">Generate a random song</button><br>
       <br>
     </div>
 
@@ -53,13 +51,16 @@ export default {
           var curSong = Object.keys(songs)[random];
           var metadata = songs[curSong];
 
-          console.log(curSong);
-          console.log(metadata);
-
           var curArtist = metadata["artist"];
           var curDownvotes = metadata["downvotes"];
           var curGenre = metadata["genre"];
           var curLength = metadata["length"];
+          var minutes = Math.floor(curLength/60);
+          var seconds = Math.floor(curLength - 60*minutes);
+          if (seconds < 10) {
+            seconds = "0" + seconds;
+          }
+          curLength = minutes + ":" + seconds;
           var curUploads = metadata["uploads"];
           var curUpvotes = metadata["upvotes"];
           var curURL = metadata["URL"];
@@ -87,7 +88,6 @@ export default {
           tr.appendChild(thGenre);
           tr.appendChild(thLength);
           trtable.appendChild(tr);
-          //alert("Song: " + key + "; Song metadata: " + temp);  
         });
     }
   }
