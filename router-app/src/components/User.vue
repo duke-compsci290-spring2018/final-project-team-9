@@ -13,7 +13,9 @@
         <div id="hello"></div>
         <p>You have {{ coins }} coins remaining.</p>
         <button v-on:click="userprint">Click here to see your profile!</button>
-        <div id="userinfo"></div>
+        <div id="userinfo">
+          
+        </div>
         
 
         <div>
@@ -82,7 +84,6 @@ export default {
       artist: "",
       //createEmail: "",
       //createPassword: "",
-      coins: 0,
       downvoted: [],
       email: "",
       //password: "",
@@ -120,6 +121,17 @@ export default {
       //return curEmail;
       //console.log(user.child(curEmail));
       //return user.ref(child(curEmail).child("added"));
+    },
+    coins: function(){
+      //display coin data
+      db.ref('users/' + this.curEmail + '/coins/').once("value")
+        .then(function(snapshot) {
+          var cc = snapshot.key;
+          console.log(cc);
+
+          var coincount = snapshot.child("remaining").val();
+          console.log(coincount);
+        });
     }
   },
 
@@ -184,11 +196,13 @@ export default {
           console.log(allSongs);
 
           var rootbox = document.getElementById("userinfo");
+          var heading = document.createElement("h2");
+          heading.appendChild(document.createTextNode("Songs you've added:"));
+          rootbox.appendChild(heading);
 
           snapshot.forEach(function(childSnapshot) {
             var toadd = document.createElement("p");
-            rootbox.appendChild(document.createTextNode("snapshot: " + childSnapshot.key + childSnapshot.ref(childSnapshot.key +"/artist")));
-            console.log(childSnapshot);
+            toadd.appendChild(document.createTextNode(childSnapshot.key +" by " + childSnapshot.child("artist").val()));
             rootbox.appendChild(toadd);
           })
       });
