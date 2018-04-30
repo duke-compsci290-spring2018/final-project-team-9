@@ -7,11 +7,17 @@
         <br> -->
 
         <div id="hello"></div>
+<<<<<<< HEAD
         <p>You have {{ coins }} coins remaining.</p>
         <button v-on:click="userprint">View your profile</button>
+=======
+
+        <div id="coinremain"></div>
+
+        <button v-on:click="userprint">Click here to view your profile</button>
+>>>>>>> 4b23ae59b32d2b21f1a0944c7cf1a2418a4b8738
         <div id="userinfo"></div>
         
-
         <div>
           <p id="inst">How to add a song to our crowdsourced database:</p>
           <p id="inst">First, enter the name of the song and artist</p>
@@ -118,6 +124,7 @@ export default {
       //return curEmail;
       //console.log(user.child(curEmail));
       //return user.ref(child(curEmail).child("added"));
+<<<<<<< HEAD
     },
     coins: function(){
       //display coin data
@@ -131,6 +138,8 @@ export default {
 
           return coincount;
         });
+=======
+>>>>>>> 4b23ae59b32d2b21f1a0944c7cf1a2418a4b8738
     }
   },
 
@@ -170,6 +179,7 @@ export default {
       console.log(this.users);
       console.log(this.profilesongs);
       console.log(this.curEmail);
+      //display added songs
       db.ref('users/' + this.curEmail + '/added/').once("value")
         .then(function(snapshot) {
           var allSongs = snapshot.val();
@@ -178,6 +188,24 @@ export default {
           var rootbox = document.getElementById("userinfo");
           var heading = document.createElement("h2");
           heading.appendChild(document.createTextNode("Songs you've added:"));
+          rootbox.appendChild(heading);
+
+          snapshot.forEach(function(childSnapshot) {
+            var toadd = document.createElement("p");
+            toadd.appendChild(document.createTextNode(childSnapshot.key +" by " + childSnapshot.child("artist").val()));
+            rootbox.appendChild(toadd);
+          })
+      });
+
+      //display upvoted songs
+      db.ref('users/' + this.curEmail + '/upvoted/').once("value")
+        .then(function(snapshot) {
+          var allSongs = snapshot.val();
+          console.log(allSongs);
+
+          var rootbox = document.getElementById("userinfo");
+          var heading = document.createElement("h2");
+          heading.appendChild(document.createTextNode("Songs you've upvoted:"));
           rootbox.appendChild(heading);
 
           snapshot.forEach(function(childSnapshot) {
@@ -613,6 +641,18 @@ export default {
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response=>response.json())
     .then(data=>this.setEmail(data.email));
+
+    //coins
+    db.ref('users/' + this.curEmail + '/coins/').once("value")
+        .then(function(snapshot) {
+          var coincount = snapshot.child("remaining").val();
+
+          var pp = document.createElement("p");
+          pp.appendChild(document.createTextNode("You have " + coincount + " coins remaining"));
+          document.getElementById("coinremain").appendChild(pp);
+
+          return coincount;
+        });
   }
 }
 </script>
@@ -674,6 +714,12 @@ a {
   font-size: 25px;
 }
 
+
+#userinfo{
+  border-style: solid;
+  border-width: 2px;
+  border-color: lightgray;
+}
 #inst {
   display: block;
 }
