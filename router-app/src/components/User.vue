@@ -6,21 +6,10 @@
         <button type="button" class="btn" id="createAccount" v-on:click="createAccount(createEmail, createPassword)">Create account</button><br>
         <br> -->
 
-        <!-- <input class="email" placeholder="Enter your email" v-model="email">
-        <input class="password" placeholder="Enter your password" v-model="password">
-        <button type="button" class="btn" id="login" v-on:click="authenticate(email, password)">Login</button><br>
-        <br> -->
         <div id="hello"></div>
         <p>You have {{ coins }} coins remaining.</p>
-<<<<<<< HEAD
         <button v-on:click="userprint">View your profile</button>
         <div id="userinfo"></div>
-=======
-        <button v-on:click="userprint">Click here to see your profile!</button>
-        <div id="userinfo">
-          
-        </div>
->>>>>>> 4e3c719b32bd010775c7a35cb2b630aac8bab707
         
 
         <div>
@@ -135,10 +124,10 @@ export default {
       db.ref('users/' + this.curEmail + '/coins/').once("value")
         .then(function(snapshot) {
           var cc = snapshot.key;
-          console.log(cc);
+          //console.log(cc);
 
           var coincount = snapshot.child("remaining").val();
-          console.log(coincount);
+          //console.log(coincount);
 
           return coincount;
         });
@@ -146,25 +135,6 @@ export default {
   },
 
   methods: {
-    // authenticate: function(email, password) {
-    //   //authenticate user if info match in credentials database
-    //   console.log("authenticate test");
-    //   console.log(email);
-    //   console.log(password);
-
-    //   var temp = email.split('.').join("<>");
-    //   db.ref('users/' + temp + "/password").once("value").then(function(snapshot) {
-    //     var realPassword = snapshot.val();
-    //     if (password === realPassword) {
-    //       console.log("Authenticated");
-    //     }
-    //     else {
-    //       console.log("Not authenticated");
-    //     }
-    //     return true;
-    //   });
-    //   this.permission = "admin";
-    // },
     // createAccount: function(email, password) {
     //   //add info to credentials database
     //   console.log("createAccount test");
