@@ -131,6 +131,8 @@ export default {
 
           var coincount = snapshot.child("remaining").val();
           console.log(coincount);
+
+          return coincount;
         });
     }
   },
