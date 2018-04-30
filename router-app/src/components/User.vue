@@ -67,7 +67,7 @@
 <script>
 import {db, songs, usersRef} from './database'
 import queryString from 'query-string'
-import d3 from 'd3'
+import * as d3 from 'd3'
 
 export default {
   name: 'User',
@@ -473,6 +473,7 @@ export default {
           var width = 400;
           var scaleFactor = 25;
           var barHeight = 40;
+          var d3 = require('d3');
           d3.select("svg").remove();
           var graph = d3.select("#chart")
             .append("svg")
