@@ -328,10 +328,22 @@ export default {
           this.tempGenre = "";
           this.tempLength = "";
           this.tempURL = "";
+        
+        var tempEmail = this.curEmail;
+        db.ref('users/' + tempEmail + '/coins/').once("value")
+        .then(function(snapshot) {//<><><>
+            var coincount = snapshot.child("remaining").val()+2;
+            //var updates['/users/' + this.curEmail + '/coins'] = coincount;
+            alert(coincount);
+            var postData = {
+              remaining: coincount
+            };
+            var updates = {};
+            updates['/users/' + tempEmail + '/coins'] = postData;
+            db.ref().update(updates);
 
-        db.ref('users/' + this.curEmail + '/coins/').once("value")
-        .then(function(snapshot) {
-          var coincount = snapshot.child("remaining").val()+2;
+            //db.ref().update(updates);
+
             var newcc = "<h3>You have " + coincount + " coins remaining!";
             document.getElementById("coinremain").innerHTML = newcc;
           })
@@ -464,6 +476,7 @@ export default {
             var curDownvotes = metadata["downvotes"];
             var curGenre = metadata["genre"];
             var curLength = metadata["length"];
+            //calculating time in minutes and seconds from ms 
             var minutes = Math.floor(curLength/60);
             var seconds = Math.floor(curLength - 60*minutes);
             if (seconds < 10) {
@@ -577,59 +590,7 @@ export default {
           // }
           //return true;
       });
-    },
-    displayGenres: function() {
-        var temp = this.email.split('.').join("<>");
-        var ref = db.ref('users/' + temp + '/upvoted');
-        ref.once("value")
-          .then(function(snapshot) {
-            var upvoted = snapshot.val();
-            var genresDict = {};
-            Object.keys(upvoted).forEach(function(key) {
-              console.log(key, upvoted[key]);
-              if (upvoted[key]["genre"] in genresDict) {
-                genresDict[upvoted[key]["genre"]] += 1;
-              }
-              else {
-                genresDict[upvoted[key]["genre"]] = 1;
-              }
-            });
-
-          console.log(genresDict);
-          var values = Object.values(genresDict);//song counts
-          var keys = Object.keys(genresDict);//genres
-          console.log(values);
-          console.log(keys);
-          var counts = {};
-          var width = 400;
-          var scaleFactor = 25;
-          var barHeight = 40;
-          var graph = d3.select("body")
-            .append("svg")
-            .attr("width", width)
-            .attr("height", barHeight*values);
-            //values.length
-          var bar = graph.selectAll("g")
-            .data(values)
-            .enter()
-            .append("g")
-            .attr("transform", function(d, i) {
-              return "translate(0," + i*barHeight + ")";
-            });
-          bar.append("rect")
-            .attr("width", function(d) {
-              return d*scaleFactor;
-            })
-            .attr("height", barHeight-1);
-          bar.append("text")
-            .attr("x", function(d) { return (d*scaleFactor); })
-            .attr("y", barHeight/2)
-            .attr("dy", ".35em")
-            .text(function(d, i) { return keys[i] + ": " + d; })
-          // }
-          return true;
-        });
-    },
+    }
   },
   mounted: function(){
     let accessToken = window.location.hash.substring(20);
