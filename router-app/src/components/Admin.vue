@@ -8,6 +8,16 @@
 	    <input class="uniqueID" placeholder="Enter your unique identifier" v-model="uniqueID">
 	    <button type="button" class="btn" id="login" v-on:click="authenticate(email, uniqueID)">Login</button><br>
 	    <br>
+    <div>
+      <h2> All Inputted Song Data: <a href=https://cs290-trello-f0978.firebaseio.com/>https://cs290-trello-f0978.firebaseio.com/</a></h2>
+    </div>  
+    <table style="width:100%" id="table">
+      <tr>
+        <th id="categories">Song</th>
+        <th id="categories">Artist</th>
+        <!--<th id="categories">Downvote</th>-->
+      </tr>
+    </table><br>
 	</div>
 </template>
 
@@ -68,7 +78,37 @@ export default {
         return true;
       });
       this.permission = "admin";
-    },
+    }
+  },
+  mounted: function(){
+    var query = db.ref('songs').orderByKey();
+    query.once("value")
+      .then(function(snapshot) {
+        console.log(snapshot);
+        snapshot.forEach(function(childSnapshot) {
+          var curSong = childSnapshot.key;
+          var curArtist = childSnapshot.child("artist").val();
+
+          var trtable = document.getElementById("table");
+          var tr = document.createElement("tr");
+          var thSong = document.createElement("th");
+          var thArtist = document.createElement("th");
+
+          curSong = curSong.split('<>').join(".");
+          curSong = curSong.split(')(').join("#");
+          curSong = curSong.split('&&').join("$");
+          curSong = curSong.split('%%').join("[");
+          curSong = curSong.split('@@').join("]");
+
+          thSong.appendChild(document.createTextNode(curSong));
+          thArtist.appendChild(document.createTextNode(curArtist));
+
+          tr.appendChild(thSong);
+          tr.appendChild(thArtist);
+          trtable.appendChild(tr);
+          
+      });
+    })
   }
 }
 </script>

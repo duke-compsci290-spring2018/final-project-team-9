@@ -45,7 +45,6 @@
         </div>
 
         <!-- Temp testing for viewMusic function -->
-        <button type="button" class="btn" id="viewMusic" v-on:click="viewMusic">Admin use: view entire music library</button><br>
         <br>
 
         <table style="width:100%" id="table">
@@ -55,6 +54,7 @@
             <th id="categories">Genre</th>
             <th id="categories">Length</th>
             <th id="categories">Upvote/Downvote</th>
+            <th id="categories urlcat">URL</th>
             <!--<th id="categories">Downvote</th>-->
           </tr>
         </table><br>
@@ -252,24 +252,6 @@ export default {
       return this.user.child(curEmail).child("added");
 
       //maybe just do this in HTML
-    },
-    viewMusic: function() {
-      //views input in checkboxes and displays respective lists
-      //currently use this method for addmin access to see entire database
-      console.log(this.permission);
-      console.log(this.permission === "admin");
-      if (this.permission === "admin") {
-        var ref = db.ref('songs');
-        ref.once("value")
-          .then(function(snapshot) {
-            var allSongs = snapshot.val();
-            console.log(allSongs);
-            return true;
-          });
-      }
-      else {
-        alert("not authorized");
-      }
     },
     addSong: function(song, artist) {
       if (this.verified === false) {
@@ -546,6 +528,7 @@ export default {
             var thArtist = document.createElement("th");
             var thGenre = document.createElement("th");
             var thLength = document.createElement("th");
+            var thURL = document.createElement("th");
 
             curSong = curSong.split('<>').join(".");
             curSong = curSong.split(')(').join("#");
@@ -557,6 +540,7 @@ export default {
             thArtist.appendChild(document.createTextNode(curArtist));
             thGenre.appendChild(document.createTextNode(curGenre));
             thLength.appendChild(document.createTextNode(curLength));
+            document.getElementById("urlcat").innerHTML = "<a href=" + curURL + "> Listen Here </a>";
 
             var thUpvote = document.createElement("button");
             //thUpvote.data = "Upvote";
