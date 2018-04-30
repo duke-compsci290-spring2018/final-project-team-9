@@ -12,14 +12,15 @@
         <br> -->
         <div id="hello"></div>
         <p>You have {{ coins }} coins remaining.</p>
+        <div>
+          <p id="inst">Instructions: Enter the title of the song you'd like to add, followed by the artist. Verify to make sure it exists in the Spotify database first-- once it is verified, the verify button will turn green, and you will be able to add it to our song database.</p>
+        </div>
         <!-- Temp testing for verifySong and addSong function -->
         <input class="song" placeholder="Enter song name" v-model="song">
         <input class="artist" placeholder="Enter song artist" v-model="artist">
-        <button type = "button" class="btn" id="add" v-on:click="verifySong(song,artist)">Verify song</button>
+        <button type = "button" class="btn" id="add" v-on:click="verifySong(song,artist)" v-bind:class="{ isGreen: verified}">Verify song</button>
         <button type="button" class="btn" id="add" v-on:click="addSong(song, artist)">Add song</button><br>
-        <div id="verify" v-if="verified">
-          <p> Song verified! </p>
-        </div>
+        <div id="added"></div>
         <br>
 
         <!-- Temp testing for upvoteSong function -->
@@ -167,11 +168,16 @@ export default {
     },
     addSong: function(song, artist) {
       if (this.verified === false) {
-        console.log("Please verify this song first");
+        alert("Please verify this song first");
         return;
       }
       else {
         this.artist = artist;
+        this.song = song;
+        var addbox = document.getElementById("added");
+        var successadd = document.createElement("p");
+        successadd.appendChild(document.createTextNode("You successfully added " + this.song + " by " + this.artist));
+        addbox.appendChild(successadd);
 
         //getting access token for api call 
         // let accessToken = window.location.hash.substring(20);
@@ -185,9 +191,6 @@ export default {
         // }).then(response=>response.json())
         // .then(data=>this.setTrack(data));
 
-        console.log(this.tempURL);
-        
-        console.log("firstsssssssss");
         // fetch('https://api.spotify.com/v1/search?q=artist:' + thisArtist + '%20track:' + thisSong + '&type=track', {
         //   headers: {'Authorization': 'Bearer ' + accessToken}
         // }).then(response=>response.json())
@@ -224,11 +227,9 @@ export default {
         var ref = db.ref('songs/' + temp);
 
         //db.ref('songs/' + temp + '/temp')
-        console.log(this.tempGenre, this.tempLength, this.tempURL);
         var genre = this.tempGenre;
         var length = this.tempLength;
         var URL = this.tempURL;
-        console.log("genrelengthURL: " + genre, length, URL);
         ref.once("value")
           .then(function(snapshot) {
             if(snapshot.exists()) {
@@ -269,7 +270,7 @@ export default {
           // updates['/songs/' + temp + '/' + newPostKey] = postData;
           // updates['/users/' + curEmail + '/added/' + temp + '/' + newPostKey] =postData;
           // return db.ref().update(updates);
-          console.log("finaaaaaaaaal");
+
           this.verified = false;
           this.tempGenre = "";
           this.tempLength = "";
@@ -317,6 +318,7 @@ export default {
     },
     setTrack: function(data){
       //sets the track data from spotify api
+      console.log(data);
       if (data.tracks.items[0] == undefined){
         alert("Invalid song, please try again");
         return;
@@ -340,6 +342,7 @@ export default {
     },
     setGenre: function(data){
       //sets genre from spotify artist api
+      console.log(data);
       if (data.artists.items[0] == undefined){
         alert("Invalid song, please try again");
         return;
@@ -553,6 +556,22 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 30px;
+}
+
+#verify{
+  background-color: #ccffdd;
+  margin: 2px;
+  padding: 2px;
+}
+
+.isGreen{
+  color: green;
+  size: 50px;
+}
+
+p{
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 h1, h2 {
