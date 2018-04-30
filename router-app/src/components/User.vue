@@ -105,48 +105,15 @@ export default {
       uniqueID: "",
       dbusers: db.ref('users'),
       profilesongs: db.ref('users/' + this.curEmail + '/added/'),
-<<<<<<< HEAD
       isAdmin: false
-=======
-
->>>>>>> bbeb0f0069948f35ac9fcdcc14db20e1bc24144b
 
     }
   },
   computed: {
     curEmail: function(){
       return this.email.split('.').join("<>");
-<<<<<<< HEAD
-      /*var superdata;
-      db.ref('users/' + curEmail + "/added/").once("value")
-          .then(function(snapshot) {
-            var superdata = snapshot.val();
-            console.log(superdata);
-            return superdata;
-          });
-      console.log(superdata);*/
-
-      //return curEmail;
-      //console.log(user.child(curEmail));
-      //return user.ref(child(curEmail).child("added"));
-    },
-    coins: function(){
-      //display coin data
-      db.ref('users/' + this.curEmail + '/coins/remaining').once("value")
-        .then(function(snapshot) {
-          var coincount = snapshot.val();
-
-          //console.log(this.curEmail);
-          console.log(snapshot)
-          var cc = snapshot.val();
-          //console.log(cc);
 
 
-          return coincount;
-        });
-=======
-
->>>>>>> bbeb0f0069948f35ac9fcdcc14db20e1bc24144b
     }
   },
 
@@ -686,26 +653,8 @@ export default {
     }).then(response=>response.json())
     .then(data=>this.setEmail(data.email));
 
-<<<<<<< HEAD
-    //coins
-    db.ref('users/' + this.email.split('.').join("<>") + '/coins/').once("value")
-        .then(function(snapshot) {
-          console.log(snapshot)
-          var coincount = snapshot.val().child("remaining");
 
-          console.log(coincount.val());
-          
 
-          var pp = document.createElement("p");
-          pp.appendChild(document.createTextNode("You have " + coincount + " coins remaining"));
-          document.getElementById("coinremain").appendChild(pp);
-
-          return coincount;
-        });
-    
-=======
-
->>>>>>> bbeb0f0069948f35ac9fcdcc14db20e1bc24144b
   }
 }
 </script>
