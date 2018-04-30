@@ -684,5 +684,10 @@ li {
 a {
   color: #42b983;
 }
+
+#categories {
+  color: royalblue;
+  font-size: 25px;
+}
 </style>
 
