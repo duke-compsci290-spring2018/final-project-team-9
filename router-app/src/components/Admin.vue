@@ -45,45 +45,6 @@ export default {
   	}
   },
   methods: {
-  	authenticate: function(email, uniqueID) {
-      //authenticate user if info match in credentials database
-      console.log("authenticate test");
-      console.log(email);
-      console.log(uniqueID);
-      
-      //give yourself more coins with this code
-      // var temp = email.split('.').join("<>");
-      // db.ref('users/' + temp).set({
-      // 	added: "null",
-      // 	coins: { "remaining": 10 },
-      // 	downvoted: "null",
-      // 	permission: "admin",
-      // 	uniqueID: "9doggo5",
-      // 	upvoted: "null"
-      // });
-
-      db.ref('songs/' + temp).set({
-              artist: artist,
-              downvotes: downvotesCount,
-              genre: genre,
-              length: length,
-              uploads: uploadsCount,
-              upvotes: upvotesCount,
-              URL: URL
-            });
-      
-      db.ref('users/' + temp + "/uniqueID").once("value").then(function(snapshot) {
-        var realUniqueID = snapshot.val();
-        if (uniqueID === realUniqueID) {
-          console.log("Authenticated");
-        }
-        else {
-          console.log("Not authenticated");
-        }
-        return true;
-      });
-      this.permission = "admin";
-    },
     deleteSong: function (song, artist) {
       var temp = song.split('.').join("<>");
       temp = temp.split('#').join(")(");
@@ -97,8 +58,6 @@ export default {
       tempArtist = tempArtist.split('[').join("%%");
       tempArtist = tempArtist.split(']').join("@@");
 
-      console.log(temp);
-      console.log(tempArtist);
       var ref = db.ref('songs/' + temp);
       ref.once("value")
       .then(function(snapshot) {
@@ -118,7 +77,6 @@ export default {
     var query = db.ref('songs').orderByKey();
     query.once("value")
       .then(function(snapshot) {
-        console.log(snapshot);
         snapshot.forEach(function(childSnapshot) {
 			var curSong = childSnapshot.key;
 			var curArtist = childSnapshot.child("artist").val();
