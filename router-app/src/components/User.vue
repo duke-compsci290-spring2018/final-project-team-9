@@ -11,16 +11,17 @@
         <button type="button" class="btn" id="login" v-on:click="authenticate(email, password)">Login</button><br>
         <br> -->
         <div id="hello"></div>
-        <div id="coinremain"></div>
-        <button v-on:click="userprint">Click here to see your profile!</button>
-        <br>
-        <div id="userinfo">
-          
-        </div>
-        
 
+        <div id="coinremain"></div>
+
+        <button v-on:click="userprint">Click here to view your profile</button>
+        <div id="userinfo"></div>
+        
         <div>
-          <p id="inst">Instructions: Enter the title of the song you'd like to add, followed by the artist. Verify to make sure it exists in the Spotify database first-- once it is verified, the verify button will turn green, and you will be able to add it to our song database.</p>
+          <p id="inst">How to add a song to our crowdsourced database:</p>
+          <p id="inst">First, enter the name of the song and artist</p>
+          <p id="inst">Second, click the verify button to check that your song exists. If successful, the box's text will turn green</p>
+          <p id="inst">Third, click the submit button to add it to the database. You will receive two coins for your efforts</p>
         </div>
         <!-- Temp testing for verifySong and addSong function -->
         <input class="song" placeholder="Enter song name" v-model="song">
@@ -685,7 +686,7 @@ p{
 }
 
 h1, h2 {
-  font-weight: normal;
+  font-weight: 600;
 }
 
 h2{
@@ -702,6 +703,10 @@ li {
   margin: 0 10px;
 }
 
+ol {
+  list-style-type: lower-roman;
+}
+
 a {
   color: #42b983;
 }
@@ -711,10 +716,14 @@ a {
   font-size: 25px;
 }
 
+
 #userinfo{
   border-style: solid;
   border-width: 2px;
   border-color: lightgray;
+}
+#inst {
+  display: block;
 }
 </style>
 
